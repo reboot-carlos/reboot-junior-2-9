@@ -279,14 +279,13 @@ function renderLanguageSwitcher() {
     const btn = document.createElement('button');
     btn.className = 'btn-langue';
     btn.dataset.lang = lang.code;
-    btn.innerHTML = `${lang.flag} ${lang.label}`;
+    btn.innerHTML = `<span class="flag">${lang.flag}</span><span class="code">${lang.code.toUpperCase()}</span>`;
     btn.title = lang.label;
     btn.setAttribute('aria-label', `Langue : ${lang.label}`);
     btn.addEventListener('click', () => changerLangue(lang.code, btn));
     container.appendChild(btn);
   });
 
-  // Marquer la langue active
   const saved = typeof getSetting === 'function' ? getSetting('langue', 'fr') : 'fr';
   container.querySelectorAll('.btn-langue').forEach(b => {
     b.classList.toggle('active', b.dataset.lang === saved);

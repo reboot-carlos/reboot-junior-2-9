@@ -5,12 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="TA CHATBOT ROSÉE - Assistante IA intelligente pour l'apprentissage et la créativité" />
   <title>TA CHATBOT ROSÉE - Chatbot IA</title>
-
-  <!-- Styles -->
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
-  <!-- Skip to main content link for accessibility -->
   <a href="#main" class="skip-link">Aller au contenu principal</a>
 
   <!-- HEADER -->
@@ -20,98 +17,95 @@
         <span id="logo-emoji">💕</span>
         <span class="logo-text">TA CHATBOT ROSÉE</span>
       </div>
-
       <nav role="navigation" aria-label="Navigation principale">
-        <a href="../index.html">← Landing</a>
-        <button
-          onclick="afficherMenuParametres()"
-          class="btn-settings-header"
-          aria-label="Ouvrir les paramètres"
-        >⚙️</button>
+        <a href="../index.html">← Accueil</a>
+        <button onclick="afficherMenuParametres()" class="btn-settings-header" aria-label="Paramètres">⚙️</button>
       </nav>
     </div>
   </header>
 
-  <!-- MAIN CONTENT -->
+  <!-- MAIN -->
   <main id="main" role="main" class="app-container">
-    <!-- SIDEBAR -->
+
+    <!-- ══════════════ SIDEBAR ══════════════ -->
     <aside id="sidebar" class="sidebar" role="complementary" aria-label="Panneau latéral">
       <div class="sidebar-header">
-        <h2 class="sidebar-title">🎭 Assistante</h2>
-        <button class="btn-close-sidebar" onclick="closeSidebar()" aria-label="Fermer la barre latérale">✕</button>
+        <h2 class="sidebar-title">✨ Menu</h2>
+        <button class="btn-close-sidebar" onclick="closeSidebar()" aria-label="Fermer">✕</button>
       </div>
 
-      <!-- Personnalités -->
-      <section class="sidebar-section" aria-labelledby="personalities-heading">
-        <label id="personalities-heading" class="section-title">📚 Personnalité</label>
-
+      <!-- 1 · PERSONNALITÉ -->
+      <section class="sidebar-section">
+        <label class="section-title">🎭 Personnalité</label>
         <div id="personalities-container">
           <!-- Générées par JavaScript -->
         </div>
       </section>
 
-      <!-- Historique -->
-      <section class="sidebar-section" aria-labelledby="history-heading">
-        <label id="history-heading" class="section-title">📂 Historique</label>
-
-        <div id="history-container" class="history-list">
-          <div class="history-empty">Aucune conversation sauvegardée</div>
-        </div>
-
-        <button class="btn-action" onclick="newConversation()" aria-label="Nouvelle conversation">
-          📝 Nouveau Chat
-        </button>
-      </section>
-
-      <!-- Options -->
-      <section class="sidebar-section" aria-labelledby="options-heading">
-        <label id="options-heading" class="section-title">⚙️ Options</label>
-
-        <button class="btn-action" onclick="saveConversation()" aria-label="Sauvegarder la conversation">
-          💾 Sauvegarder
-        </button>
-        <button class="btn-action" onclick="loadConversation()" aria-label="Charger une conversation">
-          📂 Charger
-        </button>
-      </section>
-
-      <!-- Langue -->
-      <section class="sidebar-section" aria-labelledby="language-heading">
-        <label id="language-heading" class="section-title">🌍 Langue</label>
-        <div id="language-container" style="display:flex; flex-direction:column; gap:6px;">
+      <!-- 2 · LANGUE -->
+      <section class="sidebar-section">
+        <label class="section-title">🌍 Langue</label>
+        <div id="language-container" class="lang-row">
           <!-- Générés par renderLanguageSwitcher() -->
         </div>
       </section>
 
-      <!-- Thèmes de couleur -->
-      <section class="sidebar-section" aria-labelledby="themes-heading">
-        <label id="themes-heading" class="section-title">🎨 Couleurs</label>
-        <div id="palette-couleurs-sidebar"
-             style="display:flex; flex-wrap:wrap; gap:8px; margin-top:8px;">
+      <!-- 3 · COULEURS -->
+      <section class="sidebar-section">
+        <label class="section-title">🎨 Couleurs</label>
+        <div id="palette-couleurs-sidebar" class="palette-grid">
           <!-- Générés par renderThemePalette() -->
         </div>
       </section>
 
-      <!-- Personnalisation -->
+      <!-- 4 · OUTILS RAPIDES -->
       <section class="sidebar-section">
-        <button class="btn-action" onclick="ouvrirSelecteurIcone()" aria-label="Changer l'icône du chatbot">
-          🎭 Changer l'icône
-        </button>
-        <button class="btn-action" onclick="ouvrirCreateurImage()" aria-label="Ouvrir le créateur d'image">
-          🖼️ Créateur d'image
-        </button>
+        <label class="section-title">🛠️ Outils</label>
+        <div class="tools-grid">
+          <button class="btn-tool-sidebar" onclick="afficherMenuJeux()" aria-label="Jeux">
+            🎮<span>Jeux</span>
+          </button>
+          <button class="btn-tool-sidebar" onclick="ouvrirDessin()" aria-label="Dessin">
+            🎨<span>Dessin</span>
+          </button>
+          <button class="btn-tool-sidebar" onclick="ouvrirCreateurImage()" aria-label="Créateur">
+            🖼️<span>Créateur</span>
+          </button>
+          <button class="btn-tool-sidebar" onclick="ouvrirSelecteurIcone()" aria-label="Icône">
+            🌟<span>Icône</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- 5 · HISTORIQUE -->
+      <section class="sidebar-section">
+        <label class="section-title">📂 Historique</label>
+        <div id="history-container" class="history-list">
+          <div class="history-empty">Aucune conversation sauvegardée</div>
+        </div>
+        <button class="btn-action" onclick="newConversation()">📝 Nouveau Chat</button>
+      </section>
+
+      <!-- 6 · OPTIONS -->
+      <section class="sidebar-section">
+        <label class="section-title">⚙️ Options</label>
+        <button class="btn-action" onclick="saveConversation()">💾 Sauvegarder</button>
+        <button class="btn-action" onclick="loadConversation()">📂 Charger</button>
       </section>
     </aside>
 
-    <!-- Toggle Sidebar Button -->
-    <button id="btn-toggle-sidebar" class="btn-toggle-sidebar" onclick="openSidebar()" aria-label="Afficher la barre latérale">
-      🎭 Menu
+    <!-- Bouton mobile -->
+    <button id="btn-toggle-sidebar" class="btn-toggle-sidebar" onclick="openSidebar()" aria-label="Menu">
+      ☰ Menu
     </button>
 
-    <!-- Overlay for mobile sidebar -->
-    <div id="sidebar-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 899;" onclick="closeSidebar()"></div>
+    <!-- Overlay mobile sidebar -->
+    <div id="sidebar-overlay"
+         style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;
+                background:rgba(0,0,0,0.5);z-index:899;"
+         onclick="closeSidebar()"></div>
 
-    <!-- MENU DES JEUX -->
+    <!-- ══════════════ MENU JEUX ══════════════ -->
     <div id="menu-jeux" role="region" aria-label="Menu des jeux">
       <div class="jeu-titre">🎮 LES JEUX 🎮</div>
       <button class="btn-jeu" onclick="demarrerSnake()">
@@ -126,139 +120,104 @@
         <span>⬆️</span>
         <span><strong>DOODLE JUMP</strong><small>Bientôt disponible !</small></span>
       </button>
-      <button class="btn-jeu" onclick="fermerMenuJeux()" style="justify-content:center;">
-        ❌ FERMER
-      </button>
+      <button class="btn-jeu" onclick="fermerMenuJeux()" style="justify-content:center;">❌ Fermer</button>
     </div>
 
-    <!-- JEU SNAKE -->
+    <!-- ══════════════ JEU SNAKE ══════════════ -->
     <div id="jeu-serpent-container" role="region" aria-label="Jeu Serpent">
       <div class="jeu-titre">🐍 JEU SERPENT 🐍</div>
       <canvas id="canvas-serpent" aria-label="Zone de jeu serpent"></canvas>
       <div id="score-serpent" class="jeu-info">Score: 0</div>
-      <div class="jeu-info" style="color:rgba(255,215,0,0.6); font-size:0.8rem;">
-        ⬆️ ⬅️ ⬇️ ➡️ &nbsp;ou&nbsp; Z Q S D
-      </div>
+      <div class="jeu-info" style="color:rgba(255,215,0,0.6);font-size:0.8rem;">⬆️⬅️⬇️➡️ ou Z Q S D</div>
       <button class="btn-jeu-retour" onclick="afficherMenuJeux()">← Retour aux jeux</button>
     </div>
 
-    <!-- CHAT CONTAINER -->
+    <!-- ══════════════ CHAT ══════════════ -->
     <section class="chat-container" aria-labelledby="chat-heading">
       <h1 id="chat-heading" class="hidden">Zone de chat</h1>
 
-      <!-- Chat Zone -->
-      <div id="chat-zone" class="chat-zone" role="log" aria-live="polite" aria-label="Messages du chatbot">
-        <!-- Messages générés par JavaScript -->
-      </div>
+      <div id="chat-zone" class="chat-zone" role="log" aria-live="polite" aria-label="Messages du chatbot"></div>
 
-      <!-- Suggestions -->
-      <div id="suggestions" class="suggestions" role="region" aria-label="Suggestions de questions">
-        <!-- Boutons générés par JavaScript -->
-      </div>
+      <div id="suggestions" class="suggestions" role="region" aria-label="Suggestions"></div>
 
-      <!-- Input Form -->
       <form id="input-form" class="input-form" onsubmit="handleFormSubmit(event)" role="search">
-        <input
-          id="champ-texte"
-          type="text"
-          placeholder="Écris ta question ici..."
-          aria-label="Champ de saisie du message"
-          autocomplete="off"
-        />
-        <button
-          id="bouton-envoyer"
-          type="submit"
-          aria-label="Envoyer le message"
-        >
-          ✨ ENVOYER ✨
-        </button>
+        <input id="champ-texte" type="text" placeholder="Écris ta question ici..."
+               aria-label="Champ de saisie" autocomplete="off" />
+        <button id="bouton-envoyer" type="submit" aria-label="Envoyer">✨ ENVOYER ✨</button>
       </form>
     </section>
   </main>
 
-  <!-- Overlay partagé -->
+  <!-- ══════════════ OVERLAY MODAL ══════════════ -->
   <div id="modal-overlay" class="modal-overlay" onclick="fermerTousLesModals()"></div>
 
-  <!-- Modal : Sauvegarder la conversation -->
-  <div id="modal-sauvegarde" class="modal modal-sauvegarde" role="dialog" aria-modal="true" aria-labelledby="save-modal-title">
+  <!-- Modal : Sauvegarder -->
+  <div id="modal-sauvegarde" class="modal modal-sauvegarde" role="dialog" aria-modal="true">
     <div class="modal-header">
-      <h3 id="save-modal-title">💾 Sauvegarder la conversation</h3>
-      <button class="btn-modal-close" onclick="fermerModalSauvegarde()" aria-label="Fermer">✕</button>
+      <h3>💾 Nom de la conversation</h3>
+      <button class="btn-modal-close" onclick="fermerModalSauvegarde()">✕</button>
     </div>
-    <div style="padding: 0.5rem 0 1rem;">
-      <input
-        id="nom-discussion"
-        type="text"
-        placeholder="Ex: Discussion du 19 juin"
-        aria-label="Nom de la conversation"
-        style="width:100%;"
-        onkeydown="if(event.key==='Enter') confirmerSauvegarde()"
-      />
+    <div style="padding:.5rem 0 1rem;">
+      <input id="nom-discussion" type="text" placeholder="Ex: Discussion du jour"
+             aria-label="Nom de la conversation" style="width:100%;"
+             onkeydown="if(event.key==='Enter') confirmerSauvegarde()" />
     </div>
-    <div style="display:flex; gap:8px; justify-content:flex-end;">
+    <div style="display:flex;gap:8px;justify-content:flex-end;">
       <button onclick="confirmerSauvegarde()" class="btn btn-primary">✅ Sauvegarder</button>
       <button onclick="fermerModalSauvegarde()" class="btn btn-secondary">❌ Annuler</button>
     </div>
   </div>
 
-  <!-- Modal : Application Dessin (basique) -->
-  <div id="modal-dessin" class="modal modal-dessin" role="dialog" aria-modal="true" aria-labelledby="dessin-modal-title">
+  <!-- Modal : Application Dessin -->
+  <div id="modal-dessin" class="modal modal-dessin" role="dialog" aria-modal="true">
     <div class="modal-header">
-      <h3 id="dessin-modal-title">🎨 APPLICATION DESSIN</h3>
-      <button class="btn-modal-close" onclick="fermerDessin()" aria-label="Fermer">❌</button>
+      <h3>🎨 APPLICATION DESSIN</h3>
+      <button class="btn-modal-close" onclick="fermerDessin()">❌</button>
     </div>
     <div class="drawing-toolbar">
-      <label>🎨
-        <input id="couleur-dessin" type="color" value="#FF6B9D"
-               onchange="drawColor=this.value"
-               style="width:38px; height:28px; border:none; cursor:pointer; border-radius:4px;" />
-      </label>
-      <label>🖌️
-        <input id="taille-pinceau" type="range" min="1" max="30" value="3"
-               oninput="drawSize=this.value; document.getElementById('affichage-taille').textContent=this.value+'px'" />
-        <span id="affichage-taille">3px</span>
-      </label>
+      <label>🎨 <input id="couleur-dessin" type="color" value="#FF6B9D"
+             onchange="drawColor=this.value"
+             style="width:38px;height:28px;border:none;cursor:pointer;border-radius:4px;"></label>
+      <label>🖌️ <input id="taille-pinceau" type="range" min="1" max="30" value="3"
+             oninput="drawSize=this.value;document.getElementById('affichage-taille').textContent=this.value+'px'">
+        <span id="affichage-taille">3px</span></label>
       <button id="btn-crayon" class="btn-tool active" onclick="changerOutil('crayon')">✏️ Crayon</button>
       <button id="btn-gomme"  class="btn-tool"        onclick="changerOutil('gomme')">🧹 Gomme</button>
     </div>
     <canvas id="canvas-dessin"
-            style="width:100%; height:280px; border:2px solid var(--primary); border-radius:8px;
-                   cursor:crosshair; display:block; margin-top:8px; background:#fff;"
+            style="width:100%;height:280px;border:2px solid var(--primary);border-radius:8px;
+                   cursor:crosshair;display:block;margin-top:8px;background:#fff;"
             aria-label="Zone de dessin"></canvas>
-    <div style="display:flex; gap:8px; margin-top:10px; justify-content:flex-end;">
+    <div style="display:flex;gap:8px;margin-top:10px;justify-content:flex-end;">
       <button onclick="telechargerDessin()" class="btn btn-primary">💾 Télécharger</button>
       <button onclick="effacerDessin()"     class="btn btn-secondary">🗑️ Effacer</button>
     </div>
   </div>
 
-  <!-- Modal : Créateur d'Image (avancé) -->
-  <div id="modal-createur-image" class="modal modal-createur-image" role="dialog" aria-modal="true" aria-labelledby="createur-modal-title">
+  <!-- Modal : Créateur d'Image -->
+  <div id="modal-createur-image" class="modal modal-createur-image" role="dialog" aria-modal="true">
     <div class="modal-header">
-      <h3 id="createur-modal-title">🖼️ CRÉATEUR D'IMAGE MAGIQUE</h3>
-      <button class="btn-modal-close" onclick="fermerCreateurImage()" aria-label="Fermer">❌</button>
+      <h3>🖼️ CRÉATEUR D'IMAGE MAGIQUE</h3>
+      <button class="btn-modal-close" onclick="fermerCreateurImage()">❌</button>
     </div>
     <div class="drawing-toolbar">
-      <label>🎨
-        <input id="couleur-createur" type="color" value="#FF6B9D"
-               onchange="creatorColor=this.value"
-               style="width:38px; height:28px; border:none; cursor:pointer; border-radius:4px;" />
-      </label>
-      <label>🖌️
-        <input id="taille-createur" type="range" min="1" max="50" value="5"
-               oninput="creatorSize=this.value; document.getElementById('affichage-taille-createur').textContent=this.value+'px'" />
-        <span id="affichage-taille-createur">5px</span>
-      </label>
-      <button id="btn-crayon-createur"    class="btn-tool active" onclick="changerOutilCreateur('crayon')">✏️ Crayon</button>
-      <button id="btn-gomme-createur"     class="btn-tool"        onclick="changerOutilCreateur('gomme')">🧹 Gomme</button>
-      <button id="btn-ligne-createur"     class="btn-tool"        onclick="changerOutilCreateur('ligne')">📏 Ligne</button>
-      <button id="btn-cercle-createur"    class="btn-tool"        onclick="changerOutilCreateur('cercle')">⭕ Cercle</button>
-      <button id="btn-rectangle-createur" class="btn-tool"        onclick="changerOutilCreateur('rectangle')">▭ Rectangle</button>
+      <label>🎨 <input id="couleur-createur" type="color" value="#FF6B9D"
+             onchange="creatorColor=this.value"
+             style="width:38px;height:28px;border:none;cursor:pointer;border-radius:4px;"></label>
+      <label>🖌️ <input id="taille-createur" type="range" min="1" max="50" value="5"
+             oninput="creatorSize=this.value;document.getElementById('affichage-taille-createur').textContent=this.value+'px'">
+        <span id="affichage-taille-createur">5px</span></label>
+      <button id="btn-crayon-createur"    class="btn-tool active" onclick="changerOutilCreateur('crayon')">✏️</button>
+      <button id="btn-gomme-createur"     class="btn-tool"        onclick="changerOutilCreateur('gomme')">🧹</button>
+      <button id="btn-ligne-createur"     class="btn-tool"        onclick="changerOutilCreateur('ligne')">📏</button>
+      <button id="btn-cercle-createur"    class="btn-tool"        onclick="changerOutilCreateur('cercle')">⭕</button>
+      <button id="btn-rectangle-createur" class="btn-tool"        onclick="changerOutilCreateur('rectangle')">▭</button>
     </div>
     <canvas id="canvas-createur-image"
-            style="width:100%; height:360px; border:2px solid var(--primary); border-radius:8px;
-                   cursor:crosshair; display:block; background:#fff;"
-            aria-label="Zone de création d'image"></canvas>
-    <div style="display:flex; gap:8px; margin-top:10px; justify-content:flex-end;">
+            style="width:100%;height:360px;border:2px solid var(--primary);border-radius:8px;
+                   cursor:crosshair;display:block;background:#fff;"
+            aria-label="Zone de création"></canvas>
+    <div style="display:flex;gap:8px;margin-top:10px;justify-content:flex-end;">
       <button onclick="telechargerImage()"     class="btn btn-primary">💾 Télécharger</button>
       <button onclick="copierImageCreateur()"  class="btn btn-secondary">📋 Copier</button>
       <button onclick="effacerImageCreateur()" class="btn btn-secondary">🗑️ Effacer</button>
@@ -266,38 +225,34 @@
   </div>
 
   <!-- Modal : Sélecteur d'icône -->
-  <div id="modal-icone" class="modal modal-icone" role="dialog" aria-modal="true" aria-labelledby="icone-modal-title">
+  <div id="modal-icone" class="modal modal-icone" role="dialog" aria-modal="true">
     <div class="modal-header">
-      <h3 id="icone-modal-title">🎭 Changer l'icône du chatbot</h3>
-      <button class="btn-modal-close" onclick="fermerSelecteurIcone()" aria-label="Fermer">✕</button>
+      <h3>🌟 Changer l'icône</h3>
+      <button class="btn-modal-close" onclick="fermerSelecteurIcone()">✕</button>
     </div>
-    <div id="grille-icones" class="icon-grid">
-      <!-- Générés par ouvrirSelecteurIcone() -->
-    </div>
-    <div style="display:flex; gap:8px; margin-top:8px; align-items:center;">
+    <div id="grille-icones" class="icon-grid"></div>
+    <div style="display:flex;gap:8px;margin-top:8px;align-items:center;">
       <input id="input-icone-custom" type="text" maxlength="2" placeholder="😊"
-             aria-label="Emoji personnalisé"
-             style="width:64px; font-size:1.5rem; text-align:center; padding:6px;"
+             style="width:64px;font-size:1.5rem;text-align:center;padding:6px;"
              onkeydown="if(event.key==='Enter') validerIconeCustom()" />
       <button onclick="validerIconeCustom()" class="btn btn-primary">✓ Utiliser</button>
     </div>
   </div>
 
-  <!-- Dropdown : Menu Paramètres -->
-  <div id="menu-parametres" class="settings-dropdown" role="menu" aria-label="Menu des paramètres">
+  <!-- Dropdown paramètres -->
+  <div id="menu-parametres" class="settings-dropdown" role="menu">
     <div class="settings-menu-header">⚙️ Paramètres</div>
-    <button onclick="newConversation(); fermerMenuParametres();" role="menuitem">📝 Nouvelle discussion</button>
-    <button onclick="saveConversation(); fermerMenuParametres();" role="menuitem">💾 Sauvegarder</button>
-    <button onclick="loadConversation(); fermerMenuParametres();" role="menuitem">📂 Charger</button>
+    <button onclick="newConversation();fermerMenuParametres();" role="menuitem">📝 Nouvelle discussion</button>
+    <button onclick="saveConversation();fermerMenuParametres();" role="menuitem">💾 Sauvegarder</button>
+    <button onclick="loadConversation();fermerMenuParametres();" role="menuitem">📂 Charger</button>
     <button onclick="fermerMenuParametres()" role="menuitem">❌ Fermer</button>
   </div>
 
-  <!-- Scripts — nouveaux modules en premier -->
+  <!-- Scripts — nouveaux modules en premier pour que leurs fonctions soient dispo -->
   <script src="js/themes.js" defer></script>
   <script src="js/icons.js" defer></script>
   <script src="js/drawing.js" defer></script>
   <script src="js/games.js" defer></script>
-  <!-- Modules existants -->
   <script src="js/main.js" defer></script>
   <script src="js/personalities.js" defer></script>
   <script src="js/chatbot.js" defer></script>
