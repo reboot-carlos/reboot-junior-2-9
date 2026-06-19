@@ -246,9 +246,180 @@
   transform: rotate(30deg);
 }
 
-/* Responsive */
+/* ── Bouton Fiche dans la sidebar ── */
+.btn-fiche-sidebar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: linear-gradient(135deg, rgba(255,107,157,0.2), rgba(255,215,0,0.15));
+  border: 2px solid rgba(255, 215, 0, 0.5);
+  border-radius: var(--radius-lg, 12px);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+  text-align: left;
+}
+.btn-fiche-sidebar:hover {
+  background: linear-gradient(135deg, rgba(255,107,157,0.35), rgba(255,215,0,0.25));
+  border-color: #FFD700;
+  transform: translateX(3px);
+  box-shadow: 0 0 15px rgba(255,215,0,0.25);
+}
+.fiche-icon  { font-size: 1.6rem; flex-shrink: 0; }
+.fiche-text  { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.fiche-text strong { color: #FFD700; font-size: 0.9rem; display: block; }
+.fiche-text small  { color: rgba(255,255,255,0.6); font-size: 0.72rem; display: block; }
+.fiche-arrow { color: #FFD700; font-size: 1.1rem; flex-shrink: 0; }
+
+/* ── Modal Fiche ── */
+.modal-fiche {
+  max-width: 680px;
+  width: 95vw;
+  max-height: 92vh;
+  overflow-y: auto;
+}
+
+.fiche-input-zone {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+.fiche-step { display: flex; flex-direction: column; gap: 8px; }
+
+.fiche-step-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  color: var(--primary, #FF6B9D);
+  font-size: 0.95rem;
+}
+
+.fiche-step-num {
+  background: var(--primary, #FF6B9D);
+  color: #fff;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem;
+  font-weight: 900;
+  flex-shrink: 0;
+}
+
+#fiche-texte {
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid var(--accent, #FFD1DC);
+  border-radius: var(--radius-md, 8px);
+  font-size: 0.9rem;
+  resize: vertical;
+  font-family: inherit;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: #fff;
+  color: var(--dark, #1a0a0f);
+  line-height: 1.6;
+  min-height: 120px;
+}
+#fiche-texte:focus {
+  border-color: var(--primary, #FF6B9D);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255,107,157,0.15);
+}
+#fiche-texte::placeholder { color: #bbb; }
+
+.fiche-upload-zone {
+  border: 2px dashed var(--accent, #FFD1DC);
+  border-radius: var(--radius-lg, 12px);
+  padding: 20px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: #fdf5f8;
+  min-height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray-medium, #666);
+  font-size: 0.88rem;
+}
+.fiche-upload-zone:hover {
+  border-color: var(--primary, #FF6B9D);
+  background: #fff0f5;
+  color: var(--primary, #FF6B9D);
+}
+
+.btn-generer {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, var(--primary, #FF6B9D), var(--secondary, #FF9FB2));
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-lg, 12px);
+  font-size: 1.05rem;
+  font-weight: 900;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.04em;
+  box-shadow: 0 6px 20px rgba(255,107,157,0.35);
+  font-family: inherit;
+}
+.btn-generer:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(255,107,157,0.5);
+}
+.btn-generer:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+.fiche-result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 14px 0 10px;
+  border-top: 2px solid var(--accent, #FFD1DC);
+  margin-top: 16px;
+  font-weight: 700;
+  color: var(--primary, #FF6B9D);
+}
+
+.fiche-output {
+  background: #fdf5f8;
+  border: 1px solid var(--accent, #FFD1DC);
+  border-radius: var(--radius-md, 8px);
+  padding: 16px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.87rem;
+  line-height: 1.75;
+  color: var(--dark, #1a0a0f);
+  max-height: 420px;
+  overflow-y: auto;
+  margin: 0;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.fiche-spinner {
+  font-size: 2.5rem;
+  display: inline-block;
+  animation: spin 1.2s linear infinite;
+}
+
+/* ── Responsive ── */
 @media (max-width: 768px) {
   .modal-createur-image { max-width: 98vw; }
   .modal-dessin         { max-width: 98vw; }
+  .modal-fiche          { max-width: 98vw; }
   .settings-dropdown    { right: 10px; left: 10px; min-width: unset; }
+  .fiche-result-header  { flex-direction: column; align-items: flex-start; }
 }

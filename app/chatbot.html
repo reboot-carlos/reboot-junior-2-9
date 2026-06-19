@@ -58,7 +58,20 @@
         </div>
       </section>
 
-      <!-- 4 · OUTILS RAPIDES -->
+      <!-- 4 · FICHE DE RÉVISION -->
+      <section class="sidebar-section">
+        <label class="section-title">📋 Révision</label>
+        <button class="btn-fiche-sidebar" onclick="ouvrirFiche()" aria-label="Créer une fiche de révision">
+          <span class="fiche-icon">📋</span>
+          <span class="fiche-text">
+            <strong>Fiche de révision</strong>
+            <small>Colle ton cours → fiche prête !</small>
+          </span>
+          <span class="fiche-arrow">→</span>
+        </button>
+      </section>
+
+      <!-- 5 · OUTILS RAPIDES -->
       <section class="sidebar-section">
         <label class="section-title">🛠️ Outils</label>
         <div class="tools-grid">
@@ -239,6 +252,78 @@
     </div>
   </div>
 
+  <!-- Modal : Fiche de révision -->
+  <div id="modal-fiche" class="modal modal-fiche" role="dialog" aria-modal="true" aria-labelledby="fiche-modal-title">
+
+    <div class="modal-header">
+      <h3 id="fiche-modal-title">📋 CRÉER MA FICHE DE RÉVISION</h3>
+      <button class="btn-modal-close" onclick="fermerFiche()" aria-label="Fermer">✕</button>
+    </div>
+
+    <!-- Zone de saisie -->
+    <div class="fiche-input-zone">
+
+      <!-- Étape 1 : texte -->
+      <div class="fiche-step">
+        <label class="fiche-step-label" for="fiche-texte">
+          <span class="fiche-step-num">1</span>
+          📝 Colle ton cours ici
+        </label>
+        <textarea
+          id="fiche-texte"
+          rows="7"
+          placeholder="Colle le texte de ton cours ici... Par exemple : 'La photosynthèse est le processus par lequel les plantes transforment la lumière en énergie...'"
+          aria-label="Texte du cours"
+        ></textarea>
+      </div>
+
+      <!-- Étape 2 : photo -->
+      <div class="fiche-step">
+        <label class="fiche-step-label">
+          <span class="fiche-step-num">2</span>
+          📸 OU envoie une photo de ton cours
+        </label>
+        <div class="fiche-upload-zone" onclick="document.getElementById('fiche-image-input').click()"
+             role="button" tabindex="0" aria-label="Choisir une image"
+             onkeydown="if(event.key==='Enter'||event.key===' ')this.click()">
+          <input type="file" id="fiche-image-input" accept="image/*"
+                 style="display:none" onchange="handleFicheImage(event)" />
+          <div id="fiche-upload-placeholder" style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+            <span style="font-size:2rem;">📸</span>
+            <span>Clique pour choisir une photo</span>
+            <small>Photo de cahier, manuel, tableau... JPG, PNG</small>
+          </div>
+          <img id="fiche-image-preview" src="" alt="Aperçu"
+               style="display:none;max-width:100%;max-height:180px;border-radius:8px;object-fit:contain;" />
+        </div>
+      </div>
+
+      <!-- Bouton générer -->
+      <button id="btn-generer-fiche" class="btn-generer" onclick="genererFiche()">
+        ✨ CRÉER MA FICHE DE RÉVISION ✨
+      </button>
+    </div>
+
+    <!-- Chargement -->
+    <div id="fiche-loading" style="display:none;flex-direction:column;align-items:center;gap:10px;padding:24px 0;">
+      <div class="fiche-spinner">⏳</div>
+      <p style="font-weight:700;color:var(--primary);">Je crée ta fiche... 10-20 secondes !</p>
+      <p style="font-size:0.85rem;color:#888;">Claude analyse ton cours et structure les infos</p>
+    </div>
+
+    <!-- Résultat -->
+    <div id="fiche-resultat-container" style="display:none;">
+      <div class="fiche-result-header">
+        <span>✅ Ta fiche est prête !</span>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button id="btn-copier-fiche" onclick="copierFiche()" class="btn btn-secondary">📋 Copier</button>
+          <button onclick="telechargerFiche()" class="btn btn-secondary">💾 Télécharger</button>
+        </div>
+      </div>
+      <pre id="fiche-resultat" class="fiche-output"></pre>
+    </div>
+  </div>
+
   <!-- Dropdown paramètres -->
   <div id="menu-parametres" class="settings-dropdown" role="menu">
     <div class="settings-menu-header">⚙️ Paramètres</div>
@@ -249,6 +334,7 @@
   </div>
 
   <!-- Scripts — nouveaux modules en premier pour que leurs fonctions soient dispo -->
+  <script src="js/fiche.js" defer></script>
   <script src="js/themes.js" defer></script>
   <script src="js/icons.js" defer></script>
   <script src="js/drawing.js" defer></script>

@@ -37,6 +37,17 @@ class MessageRequest(BaseModel):
     langue: str = "fr"
 
 
+class FicheRequest(BaseModel):
+    texte:        str           = ""
+    image_base64: Optional[str] = None
+    media_type:   str           = "image/jpeg"
+    langue:       str           = "fr"
+
+
+class FicheResponse(BaseModel):
+    fiche: str
+
+
 class MessageResponse(BaseModel):
     reponse: str
     score: Optional[int] = None
@@ -159,6 +170,107 @@ def get_langues():
         "langues": ["fr", "en", "he"],
         "descriptions": {"fr": "Français", "en": "English", "he": "עברית"},
     }
+
+
+# ── Fiche de révision ────────────────────────────────────────────────────────
+
+FICHE_PROMPT = """\
+Tu es un assistant pédagogique pour collégiens (11-15 ans). \
+Crée une FICHE DE RÉVISION claire et bien structurée. \
+Utilise un langage simple, des emojis pour rendre la fiche attrayante, \
+et respecte EXACTEMENT ce format :
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📚 [TITRE DU COURS EN MAJUSCULES]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💡 MOTS-CLÉS ET DÉFINITIONS
+• [Mot clé] → [Définition courte et claire]
+• [Mot clé] → [Définition courte et claire]
+(liste tous les mots importants du cours)
+
+📖 L'ESSENTIEL EN 3 PHRASES
+[Résumé du cours en 3 phrases simples]
+
+🔑 À RETENIR ABSOLUMENT
+⭐ [Point crucial 1]
+⭐ [Point crucial 2]
+⭐ [Point crucial 3]
+(ajoute autant de points que nécessaire)
+
+📊 DATES / CHIFFRES / FORMULES
+• [Si applicable : dates historiques, formules de maths/physique, \
+statistiques importantes. Écris "Rien de spécifique" si vide]
+
+❓ QUESTIONS D'ENTRAÎNEMENT
+1. [Question facile]
+2. [Question moyenne]
+3. [Question difficile]
+
+💪 ASTUCE POUR MÉMORISER
+[Un moyen mnémotechnique ou conseil pratique adapté au sujet]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+"""
+
+
+@app.post("/fiche")
+def creer_fiche(request: FicheRequest) -> FicheResponse:
+    if not client:
+        return FicheResponse(
+            fiche="❌ Claude API non disponible.\n"
+                  "Configure ta clé ANTHROPIC_API_KEY dans le fichier .env"
+        )
+
+    if not request.texte.strip() and not request.image_base64:
+        return FicheResponse(fiche="❌ Envoie un texte ou une image de ton cours !")
+
+    try:
+        if request.image_base64:
+            # Mode vision : analyse la photo du cours
+            content = [
+                {
+                    "type": "image",
+                    "source": {
+                        "type":       "base64",
+                        "media_type": request.media_type,
+                        "data":       request.image_base64,
+                    },
+                },
+                {
+                    "type": "text",
+                    "text": (
+                        f"Voici une photo d'un cours. "
+                        f"{'Voici aussi du texte complémentaire : ' + request.texte if request.texte else ''}\n\n"
+                        f"Crée une fiche de révision en suivant EXACTEMENT ce format :\n{FICHE_PROMPT}"
+                    ),
+                },
+            ]
+        else:
+            content = (
+                f"Voici le cours :\n\n{request.texte}\n\n"
+                f"Crée une fiche de révision en suivant EXACTEMENT ce format :\n{FICHE_PROMPT}"
+            )
+
+        message = client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=1800,
+            system=(
+                "Tu es un assistant pédagogique expert pour collégiens (11-15 ans). "
+                "Tu crées des fiches de révision claires, structurées et motivantes. "
+                "Tu utilises un langage simple et des emojis. "
+                "Tu RESPECTES TOUJOURS le format demandé."
+            ),
+            messages=[{"role": "user", "content": content}],
+        )
+        print(f"✅ Fiche générée ({len(message.content[0].text)} chars)")
+        return FicheResponse(fiche=message.content[0].text)
+
+    except Exception as e:
+        print(f"❌ Erreur fiche: {e}")
+        return FicheResponse(
+            fiche="❌ Une erreur est survenue. Réessaie dans quelques instants !"
+        )
 
 
 # ── Static frontend routes ────────────────────────────────────────────────────
