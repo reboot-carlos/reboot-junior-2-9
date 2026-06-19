@@ -39,6 +39,16 @@ class MessageRequest(BaseModel):
     langue: str = "fr"
 
 
+class CorrectionRequest(BaseModel):
+    texte:      str
+    niveau:     str = "6ème-5ème"
+    type_texte: str = "Rédaction"
+
+
+class CorrectionResponse(BaseModel):
+    correction: str
+
+
 class PlanningExam(BaseModel):
     matiere: str
     date:    str
@@ -225,6 +235,77 @@ def get_langues():
         "langues": ["fr", "en", "he"],
         "descriptions": {"fr": "Français", "en": "English", "he": "עברית"},
     }
+
+
+# ── Correcteur de texte ──────────────────────────────────────────────────────
+
+@app.post("/corriger")
+def corriger_texte(request: CorrectionRequest) -> CorrectionResponse:
+    if not client:
+        return CorrectionResponse(correction="❌ Claude API non disponible.")
+
+    texte = request.texte.strip()
+    if not texte:
+        return CorrectionResponse(correction="❌ Le texte est vide.")
+
+    niveaux = {
+        "CM1-CM2":    "primaire (CM1-CM2, 9-11 ans). Corrections simples, vocabulaire accessible, encouragements++",
+        "6ème-5ème":  "collège début (6ème-5ème, 11-13 ans). Corrections orthographe + grammaire de base",
+        "4ème-3ème":  "collège fin (4ème-3ème, 13-15 ans). Corrections complètes + style + cohérence",
+        "Lycée":      "lycée (15-18 ans). Corrections approfondies, style, argumentation, syntaxe avancée",
+    }
+    desc_niveau = niveaux.get(request.niveau, niveaux["6ème-5ème"])
+
+    prompt = (
+        f"Voici un {request.type_texte} d'un(e) élève de niveau {request.niveau} :\n\n"
+        f"--- TEXTE ORIGINAL ---\n{texte}\n--- FIN DU TEXTE ---\n\n"
+        "Corrige ce texte en respectant EXACTEMENT ce format :\n\n"
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        "✅ TEXTE CORRIGÉ\n"
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        "[Le texte entièrement réécrit avec TOUTES les corrections intégrées]\n\n"
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        "📋 MES CORRECTIONS (liste chaque faute trouvée)\n"
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        '❌ "[mot/phrase fautif]"  →  ✅ "[correction]"\n'
+        "   💡 [Explication courte et claire]\n\n"
+        "[Répète pour chaque faute, numérotée]\n\n"
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        "✨ SUGGESTIONS D'AMÉLIORATION\n"
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        "• [Suggestion 1 : vocabulaire, structure, connecteurs...]\n"
+        "• [Suggestion 2]\n"
+        "• [Suggestion 3]\n\n"
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        "📊 BILAN\n"
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        "• Fautes d'orthographe : [nombre]\n"
+        "• Fautes de grammaire/conjugaison : [nombre]\n"
+        "• Ponctuation : [commentaire]\n"
+        "• Style : [commentaire adapté au niveau]\n"
+        "• 🌟 Note estimée : [X/20]\n\n"
+        "💪 [Message d'encouragement personnalisé et bienveillant]"
+    )
+
+    try:
+        message = client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=2000,
+            system=(
+                f"Tu es un professeur de français bienveillant pour un(e) élève de {desc_niveau}. "
+                "Tu corriges les textes avec précision mais bienveillance. "
+                "Tu expliques chaque erreur clairement et simplement. "
+                "Tu adaptes ton niveau d'exigence et de vocabulaire au niveau scolaire. "
+                "Tu termines toujours par un encouragement positif et motivant."
+            ),
+            messages=[{"role": "user", "content": prompt}],
+        )
+        print(f"✅ Correction générée ({len(texte)} chars, niveau {request.niveau})")
+        return CorrectionResponse(correction=message.content[0].text)
+
+    except Exception as e:
+        print(f"❌ Erreur correction: {e}")
+        return CorrectionResponse(correction="❌ Erreur lors de la correction. Réessaie !")
 
 
 # ── Planning de révision ─────────────────────────────────────────────────────

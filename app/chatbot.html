@@ -102,6 +102,9 @@
           <button class="btn-tool-sidebar" onclick="ouvrirSelecteurIcone()" aria-label="Icône">
             🌟<span>Icône</span>
           </button>
+          <button class="btn-tool-sidebar btn-tool-full" onclick="ouvrirCorrection()" data-open-correction aria-label="Corriger mon texte">
+            ✍️<span>Corriger</span>
+          </button>
         </div>
       </section>
 
@@ -265,6 +268,82 @@
              onkeydown="if(event.key==='Enter') validerIconeCustom()" />
       <button onclick="validerIconeCustom()" class="btn btn-primary">✓ Utiliser</button>
     </div>
+  </div>
+
+  <!-- ══════════════ MODAL CORRECTEUR DE TEXTE ══════════════ -->
+  <div id="modal-correction" class="modal modal-correction" role="dialog" aria-modal="true">
+
+    <div class="modal-header corr-header">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span style="font-size:2rem;">✍️</span>
+        <div>
+          <h3 style="margin:0;font-size:1.05rem;color:#fff;">CORRECTEUR DE TEXTE</h3>
+          <span style="font-size:0.72rem;color:rgba(255,255,255,.8);">Corrections + améliorations personnalisées</span>
+        </div>
+      </div>
+      <button class="btn-modal-close" style="background:rgba(255,255,255,.2);color:#fff;border-color:rgba(255,255,255,.3);"
+              onclick="fermerCorrection()" aria-label="Fermer">✕</button>
+    </div>
+
+    <!-- Zone de texte -->
+    <div class="corr-field">
+      <label class="corr-label" for="corr-texte">📄 Colle ta rédaction ou ton texte ici</label>
+      <textarea id="corr-texte" class="corr-textarea"
+                oninput="document.getElementById('corr-count').textContent=this.value.length"
+                placeholder="Colle ici ta rédaction, ta dictée, ton email, ton résumé...
+
+Ex: Hier, je suis allé au cinéma avec mes amis. Nous avons regarder un film daction très bien. Ensuite on a mangé des pizza et on a rit beaucoup. C'était une journée super!"></textarea>
+      <div class="corr-char-count"><span id="corr-count">0</span> caractères</div>
+    </div>
+
+    <!-- Niveau scolaire -->
+    <div class="corr-field">
+      <label class="corr-label">🎓 Ton niveau scolaire</label>
+      <div class="corr-pills-row" id="corr-niveau-pills">
+        <button class="corr-pill" data-val="CM1-CM2">🌱 CM1-CM2</button>
+        <button class="corr-pill active" data-val="6ème-5ème">📚 6ème-5ème</button>
+        <button class="corr-pill" data-val="4ème-3ème">📖 4ème-3ème</button>
+        <button class="corr-pill" data-val="Lycée">🎓 Lycée</button>
+      </div>
+    </div>
+
+    <!-- Type de texte -->
+    <div class="corr-field">
+      <label class="corr-label">📝 Type de texte</label>
+      <div class="corr-pills-row" id="corr-type-pills">
+        <button class="corr-pill active" data-val="Rédaction">✍️ Rédaction</button>
+        <button class="corr-pill" data-val="Dictée">📣 Dictée</button>
+        <button class="corr-pill" data-val="Email / Lettre">💌 Email / Lettre</button>
+        <button class="corr-pill" data-val="Résumé">📋 Résumé</button>
+        <button class="corr-pill" data-val="Texte libre">✏️ Texte libre</button>
+      </div>
+    </div>
+
+    <!-- Bouton corriger -->
+    <button id="btn-corriger" class="btn-corriger" onclick="corrigerTexte()">
+      ✍️ CORRIGER MON TEXTE
+    </button>
+
+    <!-- Chargement -->
+    <div id="corr-loading" style="display:none;flex-direction:column;align-items:center;gap:10px;padding:24px 0;">
+      <div class="corr-spin">✍️</div>
+      <p style="font-weight:700;color:var(--primary);">Je lis et corrige ton texte...</p>
+      <p style="font-size:0.82rem;color:#999;">10-20 secondes</p>
+    </div>
+
+    <!-- Résultat -->
+    <div id="corr-result" style="display:none;">
+      <div class="corr-result-header">
+        <span>✅ Correction terminée !</span>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button id="btn-copier-corr" onclick="copierCorrection()" class="btn btn-secondary">📋 Copier</button>
+          <button onclick="telechargerCorrection()" class="btn btn-secondary">💾 Télécharger</button>
+          <button onclick="nouvelleCorrection()" class="btn btn-secondary">🔄 Nouveau texte</button>
+        </div>
+      </div>
+      <pre id="corr-output" class="corr-output"></pre>
+    </div>
+
   </div>
 
   <!-- ══════════════ MODAL PLANNING RÉVISION ══════════════ -->
@@ -664,6 +743,7 @@
   </div>
 
   <!-- Scripts — nouveaux modules en premier pour que leurs fonctions soient dispo -->
+  <script src="js/correction.js" defer></script>
   <script src="js/planning.js" defer></script>
   <script src="js/outfit.js" defer></script>
   <script src="js/quiz.js" defer></script>
