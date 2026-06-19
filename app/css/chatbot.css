@@ -185,8 +185,8 @@
   border: 2px solid var(--primary);
   border-radius: var(--radius-lg);
   font-size: var(--font-size-base);
-  background: linear-gradient(135deg, var(--gray-dark) 0%, rgba(45, 21, 37, 0.8) 100%);
-  color: var(--white);
+  background: rgba(255, 255, 255, 0.95);
+  color: #111;
   outline: none;
   transition: all var(--transition-normal);
   font-weight: 600;
@@ -194,14 +194,14 @@
 }
 
 #champ-texte::placeholder {
-  color: rgba(255, 182, 217, 0.5);
+  color: #aaa;
   font-style: italic;
 }
 
 #champ-texte:focus {
   border-color: var(--secondary);
   box-shadow: 0 0 20px rgba(255, 107, 157, 0.3);
-  background: linear-gradient(135deg, rgba(255, 107, 157, 0.1) 0%, rgba(255, 159, 178, 0.1) 100%);
+  background: #fff;
 }
 
 #bouton-envoyer {
