@@ -28,11 +28,7 @@
   box-shadow: var(--shadow-lg);
   margin-bottom: var(--spacing-md);
   padding-bottom: var(--spacing-lg);
-  color: black;
-}
-
-.chat-zone * {
-  color: black !important;
+  color: #111;
 }
 
 .chat-zone::-webkit-scrollbar {
@@ -77,34 +73,41 @@
   }
 }
 
+/* ── Texte NOIR dans TOUS les messages ── */
+.message,
+.message *,
+.message.bot,
+.message.bot *,
+.message.user,
+.message.user *,
+.message.loading,
+.message.loading * {
+  color: #111 !important;
+  text-shadow: none !important;
+}
+
 .message.bot {
-  background: rgba(255, 255, 255, 0.88);
-  border: 1px solid rgba(255, 215, 0, 0.5);
+  background: rgba(255, 255, 255, 0.90);
+  border: 1px solid rgba(255, 215, 0, 0.4);
   align-self: flex-start;
-  color: #1a0a0f !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  text-shadow: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
 }
 
 .message.user {
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  background: rgba(255, 255, 255, 0.80);
   align-self: flex-end;
   text-align: right;
-  color: #fff !important;
   font-weight: 800;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 2px 10px rgba(255, 107, 157, 0.25);
-  text-shadow: none;
+  border: 1.5px solid rgba(255, 107, 157, 0.35);
+  box-shadow: 0 2px 8px rgba(255, 107, 157, 0.12);
 }
 
 .message.loading {
-  background: rgba(255, 255, 255, 0.7);
-  border: 1.5px dashed rgba(255, 107, 157, 0.4);
+  background: rgba(255, 255, 255, 0.65);
+  border: 1.5px dashed rgba(255, 107, 157, 0.35);
   align-self: flex-start;
   font-style: italic;
-  color: #888 !important;
   animation: pulse 1.5s ease-in-out infinite;
-  text-shadow: none;
 }
 
 @keyframes pulse {

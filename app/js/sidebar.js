@@ -302,6 +302,20 @@ function changerLangue(lang, btn) {
   document.querySelectorAll('.btn-langue').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
   if (typeof setLanguage === 'function') setLanguage(lang);
+
+  // Mettre à jour les boutons de suggestions dans la nouvelle langue
+  if (typeof renderSuggestions === 'function') renderSuggestions(lang);
+
+  // Message de confirmation dans le chat
+  const confirmations = {
+    fr: '🇫🇷 Langue changée en <strong>Français</strong> ! Je vais maintenant te répondre en français.',
+    en: '🇬🇧 Language switched to <strong>English</strong>! I\'ll now respond in English.',
+    he: '🇮🇱 השפה שונתה ל<strong>עברית</strong>! אני אענה בעברית מעכשיו.',
+  };
+  const msg = confirmations[lang] || confirmations['fr'];
+  if (typeof addMessage === 'function') {
+    addMessage('bot', msg);
+  }
 }
 
 /* ---- Fermer tous les modals (clic overlay) ---- */

@@ -281,8 +281,8 @@
           <span style="font-size:0.72rem;color:rgba(255,255,255,.75);">Recommandations personnalisées &bull; TikTok &bull; Tendances</span>
         </div>
       </div>
-      <button class="btn-modal-close" style="background:rgba(255,255,255,.15);color:#fff;border-color:rgba(255,255,255,.2);"
-              onclick="fermerMusique()">✕</button>
+      <button id="btn-fermer-musique" class="btn-modal-close"
+              style="background:rgba(255,255,255,.15);color:#fff;border-color:rgba(255,255,255,.2);">✕</button>
     </div>
 
     <!-- Égaliseur animé (déco) -->
@@ -329,7 +329,7 @@
     </div>
 
     <!-- Bouton -->
-    <button id="btn-generer-musique" class="btn-music-generate" onclick="genererMusique()">
+    <button id="btn-generer-musique" class="btn-music-generate">
       🎵 GÉNÉRER MA PLAYLIST
     </button>
 
@@ -345,8 +345,8 @@
       <div class="music-result-header">
         <span>🎧 Ta playlist est prête !</span>
         <div style="display:flex;gap:8px;flex-wrap:wrap;">
-          <button id="btn-copier-musique" onclick="copierMusique()" class="btn btn-secondary">📋 Copier</button>
-          <button onclick="nouvelleMusique()" class="btn btn-secondary">🔄 Nouvelle humeur</button>
+          <button id="btn-copier-musique" class="btn btn-secondary">📋 Copier</button>
+          <button id="btn-nouvelle-musique" class="btn btn-secondary">🔄 Nouvelle humeur</button>
         </div>
       </div>
       <pre id="music-output" class="music-output"></pre>

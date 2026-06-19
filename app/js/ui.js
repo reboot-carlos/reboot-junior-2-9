@@ -40,18 +40,44 @@ function initUI(config, personalitiesData) {
   console.log('✅ UI initialisée');
 }
 
-function renderSuggestions(config) {
+// Suggestions multilingues
+const SUGGESTIONS_I18N = {
+  fr: [
+    { emoji: '💕', text: 'COUCOU !',     action: 'bonjour'   },
+    { emoji: '⭐', text: 'T\'ES QUI ?',  action: 'qui es-tu' },
+    { emoji: '⭐', text: 'AIDE !',       action: 'aide'      },
+    { emoji: '🎵', text: 'MUSIQUE',      action: 'musique'   },
+    { emoji: '🎨', text: 'DESSIN',       action: 'dessin'    },
+    { emoji: '🎮', text: 'JEUX',         action: 'jeux'      },
+  ],
+  en: [
+    { emoji: '👋', text: 'HI !',         action: 'hello'     },
+    { emoji: '⭐', text: 'WHO ARE YOU?', action: 'who are you' },
+    { emoji: '⭐', text: 'HELP !',       action: 'help'      },
+    { emoji: '🎵', text: 'MUSIC',        action: 'musique'   },
+    { emoji: '🎨', text: 'DRAW',         action: 'dessin'    },
+    { emoji: '🎮', text: 'GAMES',        action: 'jeux'      },
+  ],
+  he: [
+    { emoji: '👋', text: 'שלום !',       action: 'shalom'    },
+    { emoji: '⭐', text: 'מי את?',       action: 'mi ata'    },
+    { emoji: '⭐', text: 'עזרה !',       action: 'ezra'      },
+    { emoji: '🎵', text: 'מוזיקה',      action: 'musique'   },
+    { emoji: '🎨', text: 'ציור',         action: 'dessin'    },
+    { emoji: '🎮', text: 'משחקים',      action: 'jeux'      },
+  ],
+};
+
+function renderSuggestions(configOrLang) {
   const suggestionsContainer = document.getElementById('suggestions');
   if (!suggestionsContainer) return;
 
-  const suggestions = [
-    { emoji: '💕', text: 'COUCOU !',      action: 'bonjour'  },
-    { emoji: '⭐', text: 'T\'ES QUI ?',   action: 'qui es-tu' },
-    { emoji: '⭐', text: 'AIDE !',        action: 'aide'     },
-    { emoji: '🎵', text: 'MUSIQUE',       action: 'musique'  },
-    { emoji: '🎨', text: 'DESSIN',        action: 'dessin'   },
-    { emoji: '🎮', text: 'JEUX',          action: 'jeux'     },
-  ];
+  // Accepte soit un objet config, soit directement un code langue
+  const lang = (typeof configOrLang === 'string')
+    ? configOrLang
+    : (chatbotEngine?.language || 'fr');
+
+  const suggestions = SUGGESTIONS_I18N[lang] || SUGGESTIONS_I18N['fr'];
 
   suggestionsContainer.innerHTML = '';
 
@@ -60,16 +86,19 @@ function renderSuggestions(config) {
     btn.className = 'btn-suggestion';
     btn.innerHTML = `${suggestion.emoji} ${suggestion.text}`;
     btn.setAttribute('aria-label', suggestion.text);
+    btn.dataset.action = suggestion.action;
 
     btn.addEventListener('click', () => {
-      if (suggestion.action === 'musique') {
+      const act = suggestion.action;
+      if (act === 'musique') {
         if (typeof ouvrirMusique === 'function') ouvrirMusique();
-      } else if (suggestion.action === 'dessin') {
+        else console.warn('ouvrirMusique non disponible');
+      } else if (act === 'dessin') {
         if (typeof ouvrirDessin === 'function') ouvrirDessin();
-      } else if (suggestion.action === 'jeux') {
+      } else if (act === 'jeux') {
         if (typeof afficherMenuJeux === 'function') afficherMenuJeux();
       } else {
-        sendSuggestion(suggestion.action);
+        sendSuggestion(act);
       }
     });
 
