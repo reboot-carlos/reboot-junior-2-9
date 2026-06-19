@@ -186,7 +186,7 @@
   border-radius: var(--radius-lg);
   font-size: var(--font-size-base);
   background: rgba(255, 255, 255, 0.95);
-  color: #111;
+  color: #111 !important;
   outline: none;
   transition: all var(--transition-normal);
   font-weight: 600;
