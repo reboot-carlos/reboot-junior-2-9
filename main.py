@@ -39,6 +39,19 @@ class MessageRequest(BaseModel):
     langue: str = "fr"
 
 
+class OutfitRequest(BaseModel):
+    description:  str           = ""
+    image_base64: Optional[str] = None
+    media_type:   str           = "image/jpeg"
+    saison:       str           = "Printemps"
+    occasion:     str           = "Casual"
+    style:        str           = "Streetwear"
+
+
+class OutfitResponse(BaseModel):
+    suggestions: str
+
+
 class QuizRequest(BaseModel):
     sujet:        str           = ""
     texte:        str           = ""
@@ -194,6 +207,75 @@ def get_langues():
         "langues": ["fr", "en", "he"],
         "descriptions": {"fr": "Français", "en": "English", "he": "עברית"},
     }
+
+
+# ── Mode & Outfit ────────────────────────────────────────────────────────────
+
+@app.post("/outfit")
+def suggerer_outfit(request: OutfitRequest) -> OutfitResponse:
+    if not client:
+        return OutfitResponse(suggestions="❌ Claude API non disponible. Configure ta clé dans .env")
+
+    if not request.description.strip() and not request.image_base64:
+        return OutfitResponse(suggestions="❌ Décris tes vêtements ou envoie une photo !")
+
+    prompt = (
+        f"Vêtements disponibles : {request.description or '(voir la photo ci-jointe)'}\n"
+        f"Saison : {request.saison}\n"
+        f"Occasion : {request.occasion}\n"
+        f"Style recherché : {request.style}\n\n"
+        "Propose 3 idées de tenues créatives et adaptées. "
+        "Utilise EXACTEMENT ce format pour chaque tenue :\n\n"
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        "✨ TENUE [N] — [Nom créatif de la tenue]\n"
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        "👕 Haut : [description précise]\n"
+        "👖 Bas : [description précise]\n"
+        "👟 Chaussures : [suggestion]\n"
+        "💎 Accessoires : [sac, bijoux, casquette...]\n"
+        "💡 Astuce style : [conseil en 1 phrase]\n\n"
+        "[Répète ce format pour les 3 tenues]\n\n"
+        "🌟 CONSEIL DU STYLISTE\n"
+        "[Un conseil mode personnalisé selon la saison et l'occasion — 2 phrases max]"
+    )
+
+    try:
+        if request.image_base64:
+            content = [
+                {
+                    "type": "image",
+                    "source": {
+                        "type":       "base64",
+                        "media_type": request.media_type,
+                        "data":       request.image_base64,
+                    },
+                },
+                {
+                    "type": "text",
+                    "text": f"Voici une photo de la garde-robe. "
+                            f"{'Infos complémentaires : ' + request.description if request.description else ''}\n\n{prompt}",
+                },
+            ]
+        else:
+            content = prompt
+
+        message = client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=1500,
+            system=(
+                "Tu es un styliste de mode expert, bienveillant et fun pour jeunes (10-18 ans). "
+                "Tu proposes des tenues créatives, accessibles et adaptées à tous les styles et morphologies. "
+                "Tu utilises des emojis pour rendre tes suggestions visuelles et attrayantes. "
+                "Tes conseils sont positifs et inclusifs."
+            ),
+            messages=[{"role": "user", "content": content}],
+        )
+        print(f"✅ Outfit généré : {request.saison} / {request.occasion} / {request.style}")
+        return OutfitResponse(suggestions=message.content[0].text)
+
+    except Exception as e:
+        print(f"❌ Erreur outfit: {e}")
+        return OutfitResponse(suggestions="❌ Erreur lors de la génération. Réessaie dans quelques instants !")
 
 
 # ── Quiz Inhabituel ──────────────────────────────────────────────────────────

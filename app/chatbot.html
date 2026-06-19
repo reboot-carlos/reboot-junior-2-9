@@ -58,7 +58,16 @@
         </div>
       </section>
 
-      <!-- 4 · FICHE DE RÉVISION -->
+      <!-- 4 · MODE & OUTFIT — titre cliquable -->
+      <section class="sidebar-section">
+        <button class="btn-mode-sidebar" onclick="ouvrirOutfit()" aria-label="Mode et idées de tenues">
+          <span class="mode-emojis">👗 💄 ✨ 👠</span>
+          <strong class="mode-titre">MODE &amp; OUTFIT</strong>
+          <small class="mode-sous">Clique pour tes idées de tenues</small>
+        </button>
+      </section>
+
+      <!-- 5 · FICHE DE RÉVISION -->
       <section class="sidebar-section">
         <label class="section-title">📋 Révision</label>
         <button class="btn-fiche-sidebar" onclick="ouvrirFiche()" aria-label="Créer une fiche de révision">
@@ -253,6 +262,116 @@
              onkeydown="if(event.key==='Enter') validerIconeCustom()" />
       <button onclick="validerIconeCustom()" class="btn btn-primary">✓ Utiliser</button>
     </div>
+  </div>
+
+  <!-- ══════════════ MODAL MODE & OUTFIT ══════════════ -->
+  <div id="modal-outfit" class="modal modal-outfit" role="dialog" aria-modal="true">
+
+    <div class="modal-header outfit-modal-header">
+      <div class="outfit-header-brand">
+        <span class="outfit-header-icon">👗</span>
+        <div>
+          <h3 style="margin:0;font-size:1.1rem;">MON ASSISTANT MODE</h3>
+          <span style="font-size:0.75rem;opacity:.8;">Styliste IA personnalisé</span>
+        </div>
+      </div>
+      <button class="btn-modal-close" onclick="fermerOutfit()" aria-label="Fermer">✕</button>
+    </div>
+
+    <div class="outfit-form">
+
+      <!-- Description vêtements -->
+      <div class="outfit-field">
+        <label class="outfit-label" for="outfit-description">
+          👗 Décris tes vêtements disponibles
+        </label>
+        <textarea id="outfit-description" class="outfit-textarea" rows="4"
+                  placeholder="Ex: J'ai un jean bleu slim, un pull blanc oversize, des baskets blanches Nike, une veste en jean, un crop top noir..."></textarea>
+      </div>
+
+      <!-- Upload photo -->
+      <div class="outfit-field">
+        <label class="outfit-label">📸 OU envoie une photo de ta garde-robe</label>
+        <div class="outfit-upload-zone"
+             onclick="document.getElementById('outfit-image-input').click()"
+             role="button" tabindex="0"
+             onkeydown="if(event.key==='Enter'||event.key===' ')this.click()">
+          <input type="file" id="outfit-image-input" accept="image/*"
+                 style="display:none" onchange="handleOutfitImage(event)" />
+          <div id="outfit-upload-ph" style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+            <span style="font-size:2rem;">📸</span>
+            <span style="font-size:0.85rem;">Clique pour choisir une photo</span>
+            <small style="color:#bbb;">Selfie miroir, armoire ouverte, flat lay...</small>
+          </div>
+          <img id="outfit-img-preview" src="" alt="Aperçu"
+               style="display:none;max-width:100%;max-height:160px;border-radius:10px;object-fit:contain;" />
+        </div>
+      </div>
+
+      <!-- Saison -->
+      <div class="outfit-field">
+        <label class="outfit-label">🌸 Saison</label>
+        <div class="outfit-pills" id="outfit-saison-pills">
+          <button class="outfit-pill active" data-value="Printemps">🌸 Printemps</button>
+          <button class="outfit-pill" data-value="Été">☀️ Été</button>
+          <button class="outfit-pill" data-value="Automne">🍂 Automne</button>
+          <button class="outfit-pill" data-value="Hiver">❄️ Hiver</button>
+        </div>
+      </div>
+
+      <!-- Occasion -->
+      <div class="outfit-field">
+        <label class="outfit-label">🎯 Occasion</label>
+        <div class="outfit-pills" id="outfit-occasion-pills">
+          <button class="outfit-pill active" data-value="Casual">😎 Casual</button>
+          <button class="outfit-pill" data-value="École">🏫 École</button>
+          <button class="outfit-pill" data-value="Soirée">🎉 Soirée</button>
+          <button class="outfit-pill" data-value="Sport">⚽ Sport</button>
+          <button class="outfit-pill" data-value="Travail">💼 Travail</button>
+          <button class="outfit-pill" data-value="Date">💝 Date</button>
+        </div>
+      </div>
+
+      <!-- Style -->
+      <div class="outfit-field">
+        <label class="outfit-label">✨ Style recherché</label>
+        <div class="outfit-pills" id="outfit-style-pills">
+          <button class="outfit-pill" data-value="Classique">👔 Classique</button>
+          <button class="outfit-pill active" data-value="Streetwear">🧢 Streetwear</button>
+          <button class="outfit-pill" data-value="Chic">💫 Chic</button>
+          <button class="outfit-pill" data-value="Bohème">🌸 Bohème</button>
+          <button class="outfit-pill" data-value="Minimaliste">⚡ Minimaliste</button>
+          <button class="outfit-pill" data-value="Y2K / Retro">🌀 Y2K</button>
+        </div>
+      </div>
+
+      <!-- Bouton générer -->
+      <button id="btn-generer-outfit" class="btn-outfit-generate" onclick="genererOutfit()">
+        ✨ CRÉER MES TENUES IDÉALES ✨
+      </button>
+    </div>
+
+    <!-- Chargement -->
+    <div id="outfit-loading" style="display:none;flex-direction:column;align-items:center;gap:10px;padding:28px 0;">
+      <div class="outfit-spin">👗</div>
+      <p style="font-weight:700;background:linear-gradient(135deg,#6B21A8,#EC4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1rem;">
+        Ton styliste IA prépare tes looks...
+      </p>
+      <p style="font-size:0.82rem;color:#999;">15-20 secondes</p>
+    </div>
+
+    <!-- Résultats -->
+    <div id="outfit-result" style="display:none;">
+      <div class="outfit-result-header">
+        <span style="font-weight:800;color:#6B21A8;">✨ Tes tenues du moment !</span>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button id="btn-copier-outfit" onclick="copierOutfit()" class="btn btn-secondary">📋 Copier</button>
+          <button onclick="nouvelleRecherche()" class="btn btn-secondary">🔄 Nouvelle recherche</button>
+        </div>
+      </div>
+      <pre id="outfit-suggestions" class="outfit-output"></pre>
+    </div>
+
   </div>
 
   <!-- ══════════════ MODAL QUIZ INHABITUEL ══════════════ -->
@@ -457,6 +576,7 @@
   </div>
 
   <!-- Scripts — nouveaux modules en premier pour que leurs fonctions soient dispo -->
+  <script src="js/outfit.js" defer></script>
   <script src="js/quiz.js" defer></script>
   <script src="js/fiche.js" defer></script>
   <script src="js/themes.js" defer></script>
