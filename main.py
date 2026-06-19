@@ -39,6 +39,29 @@ class MessageRequest(BaseModel):
     langue: str = "fr"
 
 
+class DevinetteRequest(BaseModel):
+    difficulte: str = "Moyen"
+
+
+class DevinetteResponse(BaseModel):
+    devinette:   str
+    reponse:     str
+    indice:      str
+    explication: str
+
+
+class JeuMotsRequest(BaseModel):
+    type_jeu: str = "Anagramme"
+
+
+class JeuMotsResponse(BaseModel):
+    enonce:      str
+    reponse:     str   # Réponses valides séparées par "/"
+    indice:      str
+    explication: str
+    type_jeu:    str
+
+
 class OralRequest(BaseModel):
     texte:    str
     sujet:    str = ""
@@ -258,6 +281,132 @@ def get_langues():
         "langues": ["fr", "en", "he"],
         "descriptions": {"fr": "Français", "en": "English", "he": "עברית"},
     }
+
+
+# ── Devinette ────────────────────────────────────────────────────────────────
+
+@app.post("/devinette")
+def generer_devinette(request: DevinetteRequest) -> DevinetteResponse:
+    if not client:
+        return DevinetteResponse(
+            devinette="Je suis rond et jaune, je brille dans le ciel. Qui suis-je ?",
+            reponse="le soleil",
+            indice="Je donne de la chaleur",
+            explication="Le soleil est notre étoile, ronde et brillante !",
+        )
+
+    niveaux = {
+        "Facile":    "très simple, pour enfants de 8-10 ans, réponse en 1 mot courant",
+        "Moyen":     "modérée, pour 11-14 ans, réponse creative",
+        "Difficile": "complexe, pour 14-18 ans, avec des jeux de mots ou métaphores",
+    }
+    niveau_desc = niveaux.get(request.difficulte, niveaux["Moyen"])
+
+    try:
+        message = client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=300,
+            system=(
+                "Tu es un créateur de devinettes amusantes en français pour collégiens. "
+                "Tu génères UNIQUEMENT du JSON valide, rien d'autre."
+            ),
+            messages=[{"role": "user", "content": (
+                f"Génère une devinette {niveau_desc}. "
+                'Réponds UNIQUEMENT avec ce JSON (rien d\'autre):\n'
+                '{"devinette":"[La devinette commence par Je suis... ou Qu\'est-ce qui...]",'
+                '"reponse":"[réponse en minuscules]",'
+                '"indice":"[indice sans révéler la réponse]",'
+                '"explication":"[explication fun en 1 phrase]"}'
+            )}],
+        )
+        data = json.loads(_clean_json(message.content[0].text))
+        print(f"✅ Devinette générée ({request.difficulte})")
+        return DevinetteResponse(**data)
+    except Exception as e:
+        print(f"❌ Erreur devinette: {e}")
+        return DevinetteResponse(
+            devinette="Plus je sèche, plus je suis mouillée. Qui suis-je ?",
+            reponse="une serviette",
+            indice="On m'utilise après le bain",
+            explication="Une serviette sèche les gouttes d'eau !",
+        )
+
+
+# ── Jeux de mots ──────────────────────────────────────────────────────────────
+
+@app.post("/jeu-mots")
+def generer_jeu_mots(request: JeuMotsRequest) -> JeuMotsResponse:
+    if not client:
+        return JeuMotsResponse(
+            enonce="IRTEG — Remets les lettres dans l'ordre !",
+            reponse="tigre",
+            indice="C'est un grand félin rayé",
+            explication="IRTEG est l'anagramme de TIGRE !",
+            type_jeu="Anagramme",
+        )
+
+    prompts = {
+        "Anagramme": (
+            "Génère un anagramme amusant pour collégiens. "
+            "Mélange les lettres d'un mot français courant. "
+            '{"enonce":"[LETTRES MELANGEES] — Remets les lettres dans l\'ordre !",'
+            '"reponse":"[mot original en minuscules]",'
+            '"indice":"[définition courte du mot]",'
+            '"explication":"[explication de l\'anagramme]",'
+            '"type_jeu":"Anagramme"}'
+        ),
+        "Rime": (
+            "Génère un défi de rime. Donne un mot et demande d'en trouver un qui rime. "
+            '{"enonce":"Trouve un mot qui rime avec [MOT] !",'
+            '"reponse":"[mot1/mot2/mot3]",'
+            '"indice":"[indice catégorie]",'
+            '"explication":"[exemples de mots qui riment]",'
+            '"type_jeu":"Rime"}'
+        ),
+        "Mot mystère": (
+            "Génère un mot mystère : donne la définition, le nombre de lettres et quelques indices. "
+            '{"enonce":"Je suis [DEFINITION]. J\'ai [N] lettres. La première est [LETTRE]. Quel mot suis-je ?",'
+            '"reponse":"[le mot en minuscules]",'
+            '"indice":"[autre indice]",'
+            '"explication":"[explication]",'
+            '"type_jeu":"Mot mystère"}'
+        ),
+        "Calembour": (
+            "Génère un calembour (jeu de mots) amusant pour ados. "
+            "Format : donne la première partie du jeu de mots et l'utilisateur doit trouver la chute. "
+            '{"enonce":"[Début du calembour ou devinette humoristique]",'
+            '"reponse":"[chute/punch line en minuscules]",'
+            '"indice":"[indice phonétique ou sémantique]",'
+            '"explication":"[pourquoi c\'est drôle]",'
+            '"type_jeu":"Calembour"}'
+        ),
+    }
+
+    prompt_text = prompts.get(request.type_jeu, prompts["Anagramme"])
+
+    try:
+        message = client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=300,
+            system=(
+                "Tu es un créateur de jeux de mots en français pour collégiens. "
+                "Tu génères UNIQUEMENT du JSON valide, rien d'autre."
+            ),
+            messages=[{"role": "user", "content":
+                f"{prompt_text}\n\nRéponds UNIQUEMENT avec le JSON ci-dessus, rien d'autre."}],
+        )
+        data = json.loads(_clean_json(message.content[0].text))
+        print(f"✅ Jeu de mots généré ({request.type_jeu})")
+        return JeuMotsResponse(**data)
+    except Exception as e:
+        print(f"❌ Erreur jeu-mots: {e}")
+        return JeuMotsResponse(
+            enonce="SORIE — Remets les lettres dans l'ordre !",
+            reponse="rose/oise/rois",
+            indice="C'est une fleur",
+            explication="SORIE est l'anagramme de ROSIE… ou ROSE !",
+            type_jeu=request.type_jeu,
+        )
 
 
 # ── Entraînement à l'oral ────────────────────────────────────────────────────

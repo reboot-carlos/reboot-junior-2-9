@@ -146,6 +146,14 @@
         <span>🐍</span>
         <span><strong>SNAKE</strong><small>Mange les pommes !</small></span>
       </button>
+      <button class="btn-jeu" onclick="demarrerDevinette()">
+        <span>🎭</span>
+        <span><strong>DEVINETTE</strong><small>Réponds à mes énigmes !</small></span>
+      </button>
+      <button class="btn-jeu" onclick="demarrerJeuxMots()">
+        <span>🔤</span>
+        <span><strong>JEUX DE MOTS</strong><small>Anagramme, rime et plus !</small></span>
+      </button>
       <button class="btn-jeu" onclick="demarrerSubway()">
         <span>🏃</span>
         <span><strong>SUBWAY SURFER</strong><small>Bientôt disponible !</small></span>
@@ -155,6 +163,70 @@
         <span><strong>DOODLE JUMP</strong><small>Bientôt disponible !</small></span>
       </button>
       <button class="btn-jeu" onclick="fermerMenuJeux()" style="justify-content:center;">❌ Fermer</button>
+    </div>
+
+    <!-- ══════════════ JEU DEVINETTE ══════════════ -->
+    <div id="jeu-devinette-container" class="jeu-panel" role="region" aria-label="Jeu Devinette">
+      <div class="jeu-titre">🎭 DEVINETTE 🎭</div>
+
+      <div class="mini-jeu-score">
+        <span>⭐ <span id="dev-score">0</span> pts</span>
+        <span>❓ <span id="dev-total">0</span> essais</span>
+      </div>
+
+      <div class="mini-jeu-pills" id="dev-diff-pills">
+        <button class="jeu-pill" data-val="Facile">😊 Facile</button>
+        <button class="jeu-pill active" data-val="Moyen">🎯 Moyen</button>
+        <button class="jeu-pill" data-val="Difficile">🔥 Difficile</button>
+      </div>
+
+      <div id="dev-texte" class="mini-jeu-enonce">Clique sur "Nouvelle devinette" ! 🎲</div>
+      <div id="dev-loading" style="display:none;text-align:center;padding:8px;color:rgba(255,215,0,.7);font-size:.85rem;">⏳ Génération…</div>
+
+      <div id="dev-input-zone" style="display:none;flex-direction:column;gap:6px;">
+        <input id="dev-reponse" type="text" class="mini-jeu-input" placeholder="Ta réponse…" autocomplete="off" />
+        <div style="display:flex;gap:6px;">
+          <button id="btn-valider-dev" class="btn-mini-valider">✅ Valider</button>
+          <button id="btn-indice-dev"  class="btn-mini-secondary">💡 Indice</button>
+        </div>
+      </div>
+
+      <div id="dev-feedback" class="dev-feedback" style="display:none;"></div>
+      <button id="btn-nouvelle-devinette" class="btn-mini-nouveau">🎲 Nouvelle devinette</button>
+      <button class="btn-jeu-retour" onclick="fermerDevinette()">← Retour aux jeux</button>
+    </div>
+
+    <!-- ══════════════ JEU DE MOTS ══════════════ -->
+    <div id="jeu-mots-container" class="jeu-panel" role="region" aria-label="Jeux de mots">
+      <div class="jeu-titre">🔤 JEUX DE MOTS 🔤</div>
+
+      <div class="mini-jeu-score">
+        <span>⭐ <span id="mots-score">0</span> pts</span>
+        <span>🔤 <span id="mots-total">0</span> essais</span>
+      </div>
+
+      <div class="mini-jeu-pills" id="mots-type-pills">
+        <button class="jeu-pill active" data-val="Anagramme">🔀 Anagramme</button>
+        <button class="jeu-pill" data-val="Rime">🎵 Rime</button>
+        <button class="jeu-pill" data-val="Mot mystère">🔍 Mot mystère</button>
+        <button class="jeu-pill" data-val="Calembour">😄 Calembour</button>
+      </div>
+
+      <div id="mots-enonce" class="mini-jeu-enonce">Choisis un type et clique sur "Jouer" ! 🔤</div>
+      <div id="mots-loading" style="display:none;text-align:center;padding:8px;color:rgba(255,215,0,.7);font-size:.85rem;">⏳ Génération…</div>
+
+      <div id="mots-input-zone" style="display:none;flex-direction:column;gap:6px;">
+        <label id="mots-label-reponse" class="mini-jeu-label">💬 Ta réponse :</label>
+        <input id="mots-reponse" type="text" class="mini-jeu-input" placeholder="Tape ta réponse…" autocomplete="off" />
+        <div style="display:flex;gap:6px;">
+          <button id="btn-valider-mots"  class="btn-mini-valider">✅ Valider</button>
+          <button id="btn-indice-mots"   class="btn-mini-secondary">💡 Indice</button>
+        </div>
+      </div>
+
+      <div id="mots-feedback" class="dev-feedback" style="display:none;"></div>
+      <button id="btn-nouveau-mot" class="btn-mini-nouveau">🎲 Jouer !</button>
+      <button class="btn-jeu-retour" onclick="fermerJeuxMots()">← Retour aux jeux</button>
     </div>
 
     <!-- ══════════════ JEU SNAKE ══════════════ -->
@@ -924,6 +996,7 @@ Ex: Hier, je suis allé au cinéma avec mes amis. Nous avons regarder un film da
   </div>
 
   <!-- Scripts — nouveaux modules en premier pour que leurs fonctions soient dispo -->
+  <script src="js/mini-jeux.js" defer></script>
   <script src="js/oral.js" defer></script>
   <script src="js/musique.js" defer></script>
   <script src="js/correction.js" defer></script>
