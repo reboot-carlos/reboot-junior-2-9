@@ -84,6 +84,9 @@
       <section class="sidebar-section">
         <label class="section-title">🛠️ Outils</label>
         <div class="tools-grid">
+          <button class="btn-tool-sidebar" onclick="ouvrirPlanning()" data-open-planning aria-label="Planning de révision">
+            📅<span>Planning</span>
+          </button>
           <button class="btn-tool-sidebar" onclick="ouvrirQuiz()" aria-label="Quiz Inhabituel">
             🎯<span>Quiz</span>
           </button>
@@ -262,6 +265,91 @@
              onkeydown="if(event.key==='Enter') validerIconeCustom()" />
       <button onclick="validerIconeCustom()" class="btn btn-primary">✓ Utiliser</button>
     </div>
+  </div>
+
+  <!-- ══════════════ MODAL PLANNING RÉVISION ══════════════ -->
+  <div id="modal-planning" class="modal modal-planning" role="dialog" aria-modal="true">
+
+    <!-- En-tête -->
+    <div class="modal-header planning-header">
+      <div class="planning-header-content">
+        <span class="planning-header-icon">📅</span>
+        <div>
+          <h3 style="margin:0;font-size:1.05rem;color:#fff;">MON PLANNING DE RÉVISION</h3>
+          <span style="font-size:0.72rem;color:rgba(255,255,255,.8);">Programme personnalisé par l'IA</span>
+        </div>
+      </div>
+      <button class="btn-modal-close planning-close" onclick="fermerPlanning()" aria-label="Fermer">✕</button>
+    </div>
+
+    <!-- Section 1 : Mes examens -->
+    <div class="planning-section">
+      <div class="planning-sec-header">
+        <span class="planning-sec-title">📝 Mes contrôles &amp; examens</span>
+        <button class="btn-add-exam" onclick="_addExam()">+ Ajouter</button>
+      </div>
+      <div id="planning-exams-list">
+        <p class="planning-empty">Clique sur <strong>+ Ajouter</strong> pour saisir tes examens 👆</p>
+      </div>
+    </div>
+
+    <!-- Section 2 : Disponibilités -->
+    <div class="planning-section">
+      <div class="planning-sec-title">⏰ Mes disponibilités</div>
+
+      <label class="planning-label">Heures de révision par jour :</label>
+      <div class="planning-pills-row" id="planning-hours-pills">
+        <button class="planning-pill" data-val="1">1h</button>
+        <button class="planning-pill active" data-val="2">2h</button>
+        <button class="planning-pill" data-val="3">3h</button>
+        <button class="planning-pill" data-val="4">4h</button>
+        <button class="planning-pill" data-val="5">5h+</button>
+      </div>
+
+      <label class="planning-label" style="margin-top:10px;">Jours disponibles :</label>
+      <div class="planning-pills-row" id="planning-days-pills">
+        <button class="planning-day-pill active" data-day="Lundi">Lun</button>
+        <button class="planning-day-pill active" data-day="Mardi">Mar</button>
+        <button class="planning-day-pill active" data-day="Mercredi">Mer</button>
+        <button class="planning-day-pill active" data-day="Jeudi">Jeu</button>
+        <button class="planning-day-pill active" data-day="Vendredi">Ven</button>
+        <button class="planning-day-pill" data-day="Samedi">Sam</button>
+        <button class="planning-day-pill" data-day="Dimanche">Dim</button>
+      </div>
+    </div>
+
+    <!-- Section 3 : Notes -->
+    <div class="planning-section">
+      <div class="planning-sec-title">💬 Infos supplémentaires <span style="font-weight:400;color:#aaa;">(optionnel)</span></div>
+      <textarea id="planning-notes" class="planning-notes-input"
+                placeholder="Ex: Je panique en maths, j'ai sport le mercredi soir, je révise mieux le matin..."></textarea>
+    </div>
+
+    <!-- Bouton générer -->
+    <button id="btn-generer-planning" class="btn-planning-generate" onclick="genererPlanning()">
+      📅 CRÉER MON PLANNING PERSONNALISÉ
+    </button>
+
+    <!-- Chargement -->
+    <div id="planning-loading" style="display:none;flex-direction:column;align-items:center;gap:10px;padding:24px 0;">
+      <div class="planning-spin">📅</div>
+      <p style="font-weight:700;color:var(--primary);">Je construis ton programme sur-mesure...</p>
+      <p style="font-size:0.82rem;color:#999;">15-25 secondes selon le nombre d'examens</p>
+    </div>
+
+    <!-- Résultat -->
+    <div id="planning-result" style="display:none;">
+      <div class="planning-result-header">
+        <span>✅ Ton planning est prêt !</span>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button id="btn-copier-planning" onclick="copierPlanning()" class="btn btn-secondary">📋 Copier</button>
+          <button onclick="telechargerPlanning()" class="btn btn-secondary">💾 Télécharger</button>
+          <button onclick="nouveauPlanning()" class="btn btn-secondary">🔄 Recommencer</button>
+        </div>
+      </div>
+      <pre id="planning-output" class="planning-output"></pre>
+    </div>
+
   </div>
 
   <!-- ══════════════ MODAL MODE & OUTFIT ══════════════ -->
@@ -576,6 +664,7 @@
   </div>
 
   <!-- Scripts — nouveaux modules en premier pour que leurs fonctions soient dispo -->
+  <script src="js/planning.js" defer></script>
   <script src="js/outfit.js" defer></script>
   <script src="js/quiz.js" defer></script>
   <script src="js/fiche.js" defer></script>

@@ -247,6 +247,274 @@
 }
 
 /* ═══════════════════════════════════════════════════
+   PLANNING DE RÉVISION
+   ═══════════════════════════════════════════════════ */
+
+.modal-planning {
+  max-width: 700px;
+  width: 95vw;
+  max-height: 92vh;
+  overflow-y: auto;
+}
+
+/* En-tête */
+.planning-header {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  margin: calc(-1 * var(--spacing-lg, 1.5rem));
+  margin-bottom: 16px;
+  padding: 16px var(--spacing-lg, 1.5rem);
+  border-radius: var(--radius-lg, 12px) var(--radius-lg, 12px) 0 0;
+}
+.planning-header-content { display:flex; align-items:center; gap:12px; }
+.planning-header-icon    { font-size:2rem; }
+.planning-close          { background:rgba(255,255,255,.2); color:#fff; border-color:rgba(255,255,255,.3); }
+.planning-close:hover    { background:rgba(255,255,255,.35); }
+
+/* Sections */
+.planning-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px;
+  background: #fafafa;
+  border: 1px solid rgba(255,107,157,.1);
+  border-radius: var(--radius-lg, 12px);
+  margin-bottom: 10px;
+}
+
+.planning-sec-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.planning-sec-title {
+  font-weight: 800;
+  font-size: 0.88rem;
+  color: var(--primary);
+}
+
+.planning-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #555;
+}
+
+/* Bouton ajouter examen */
+.btn-add-exam {
+  padding: 5px 12px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all .2s;
+}
+.btn-add-exam:hover { filter:brightness(1.1); transform:scale(1.03); }
+
+/* Carte examen */
+.planning-exam-card {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  background: #fff;
+  border: 1.5px solid rgba(255,107,157,.15);
+  border-radius: var(--radius-md, 8px);
+  animation: slideIn .2s ease;
+}
+
+.planning-exam-fields {
+  display: grid;
+  grid-template-columns: 1.6fr 1.2fr 1fr 1fr;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+
+.planning-input, .planning-select {
+  padding: 6px 8px;
+  border: 1.5px solid rgba(255,107,157,.2);
+  border-radius: var(--radius-sm, 4px);
+  font-size: 0.8rem;
+  font-family: inherit;
+  background: #fff;
+  color: var(--dark, #1a0a0f);
+  transition: border-color .2s;
+  width: 100%;
+  min-width: 0;
+}
+.planning-input:focus, .planning-select:focus {
+  border-color: var(--primary);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255,107,157,.1);
+}
+.planning-input::placeholder { color: #ccc; font-size:0.75rem; }
+.planning-date { cursor:pointer; }
+
+.planning-remove {
+  background: #fee2e2;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  font-size: 0.7rem;
+  color: #dc2626;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all .2s;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.planning-remove:hover { background:#dc2626; color:#fff; }
+
+.planning-empty {
+  text-align: center;
+  color: #aaa;
+  font-size: 0.85rem;
+  padding: 12px;
+  font-style: italic;
+}
+
+/* Pills heures */
+.planning-pills-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.planning-pill {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1.5px solid rgba(255,107,157,.25);
+  background: #fff;
+  color: #888;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all .2s;
+}
+.planning-pill:hover  { border-color:var(--primary); color:var(--primary); }
+.planning-pill.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(255,107,157,.3);
+}
+
+/* Pills jours */
+.planning-day-pill {
+  padding: 6px 10px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(255,107,157,.2);
+  background: #fff;
+  color: #888;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all .2s;
+}
+.planning-day-pill:hover  { border-color:var(--primary); }
+.planning-day-pill.active {
+  background: rgba(255,107,157,.12);
+  border-color: var(--primary);
+  color: var(--primary);
+  font-weight: 800;
+}
+
+/* Notes */
+.planning-notes-input {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1.5px solid rgba(255,107,157,.2);
+  border-radius: var(--radius-md, 8px);
+  font-family: inherit;
+  font-size: 0.85rem;
+  resize: vertical;
+  min-height: 70px;
+  background: #fff;
+  color: var(--dark);
+  line-height: 1.5;
+  transition: border-color .2s;
+}
+.planning-notes-input:focus {
+  border-color: var(--primary);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255,107,157,.1);
+}
+.planning-notes-input::placeholder { color: #ccc; }
+
+/* Bouton générer */
+.btn-planning-generate {
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-lg, 12px);
+  font-size: 1rem;
+  font-weight: 900;
+  cursor: pointer;
+  font-family: inherit;
+  letter-spacing: .03em;
+  box-shadow: 0 5px 18px rgba(255,107,157,.35);
+  transition: all .2s;
+  margin: 6px 0;
+}
+.btn-planning-generate:hover:not(:disabled) { transform:translateY(-2px); box-shadow:0 8px 24px rgba(255,107,157,.45); }
+.btn-planning-generate:disabled { opacity:.6; cursor:not-allowed; }
+
+/* Chargement */
+@keyframes plan-bounce {
+  0%,100% { transform:translateY(0); }
+  50%      { transform:translateY(-8px); }
+}
+.planning-spin { font-size:2.8rem; display:inline-block; animation:plan-bounce 1s ease-in-out infinite; }
+
+/* Résultat */
+.planning-result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 0 10px;
+  border-top: 2px solid var(--accent, #FFD1DC);
+  margin-top: 14px;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.planning-output {
+  background: linear-gradient(135deg, #fdfbff, #fff8fb);
+  border: 1px solid rgba(255,107,157,.15);
+  border-radius: var(--radius-md, 8px);
+  padding: 16px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.85rem;
+  line-height: 1.75;
+  color: var(--dark, #1a0a0f);
+  max-height: 480px;
+  overflow-y: auto;
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .planning-exam-fields { grid-template-columns: 1fr 1fr; }
+  .planning-day-pill    { padding:5px 8px; font-size:0.73rem; }
+}
+
+/* ═══════════════════════════════════════════════════
    MODE & OUTFIT
    ═══════════════════════════════════════════════════ */
 

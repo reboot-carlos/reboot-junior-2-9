@@ -39,6 +39,24 @@ class MessageRequest(BaseModel):
     langue: str = "fr"
 
 
+class PlanningExam(BaseModel):
+    matiere: str
+    date:    str
+    maitrise: str = "Quelques notions"
+    type:    str  = "Contrôle"
+
+
+class PlanningRequest(BaseModel):
+    examens:           List[PlanningExam]
+    heures_par_jour:   int       = 2
+    jours_disponibles: List[str] = []
+    notes:             str       = ""
+
+
+class PlanningResponse(BaseModel):
+    planning: str
+
+
 class OutfitRequest(BaseModel):
     description:  str           = ""
     image_base64: Optional[str] = None
@@ -207,6 +225,76 @@ def get_langues():
         "langues": ["fr", "en", "he"],
         "descriptions": {"fr": "Français", "en": "English", "he": "עברית"},
     }
+
+
+# ── Planning de révision ─────────────────────────────────────────────────────
+
+@app.post("/planning")
+def creer_planning(request: PlanningRequest) -> PlanningResponse:
+    if not client:
+        return PlanningResponse(planning="❌ Claude API non disponible. Configure ta clé dans .env")
+
+    if not request.examens:
+        return PlanningResponse(planning="❌ Ajoute au moins un examen !")
+
+    # Formater la liste des examens
+    lignes_examens = "\n".join(
+        f"  • {ex.matiere} — {ex.type} le {ex.date} "
+        f"(niveau : {ex.maitrise})"
+        for ex in sorted(request.examens, key=lambda e: e.date)
+    )
+
+    jours_str = ", ".join(request.jours_disponibles) if request.jours_disponibles else "Tous les jours"
+    notes_str = f"\nInfos supplémentaires : {request.notes}" if request.notes.strip() else ""
+
+    prompt = (
+        f"Voici les examens à préparer :\n{lignes_examens}\n\n"
+        f"Disponibilités :\n"
+        f"  • {request.heures_par_jour}h de révision par jour\n"
+        f"  • Jours disponibles : {jours_str}"
+        f"{notes_str}\n\n"
+        "Crée un programme de révision PERSONNALISÉ, RÉALISTE et MOTIVANT. "
+        "Respecte EXACTEMENT ce format :\n\n"
+        "📅 MON PROGRAMME DE RÉVISION PERSONNALISÉ\n"
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
+        "🎯 MES PRIORITÉS\n"
+        "• [Matière la plus urgente/difficile] — [pourquoi en priorité]\n"
+        "• [Matière suivante] — [raison]\n"
+        "(liste toutes les matières par priorité)\n\n"
+        "📆 MON PLANNING JOUR PAR JOUR\n"
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        "[Pour chaque jour disponible jusqu'au dernier examen :]\n"
+        "📌 [Jour] [Date]\n"
+        f"  🕐 Créneau 1 ([durée]) : [Matière] — [activité précise ex: fiches résumé chapitre X]\n"
+        f"  🕐 Créneau 2 ([durée]) : [Matière] — [activité précise]\n"
+        "  ⏸️ Pause de 10 min entre chaque créneau !\n\n"
+        "[Répète pour chaque jour. La veille d'un examen, révision légère uniquement.]\n\n"
+        "💡 MES ASTUCES PERSONNALISÉES\n"
+        "• [Conseil adapté à la situation de cet élève]\n"
+        "• [Conseil méthode de révision]\n"
+        "• [Conseil bien-être/gestion du stress]\n\n"
+        "💪 MON MOT DE MOTIVATION\n"
+        "[Phrase motivante et bienveillante personnalisée selon les examens]"
+    )
+
+    try:
+        message = client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=2000,
+            system=(
+                "Tu es un expert en méthodes d'apprentissage et révision pour collégiens (11-15 ans). "
+                "Tu crées des plannings réalistes, motivants et adaptés à chaque élève. "
+                "Tu tiens compte du niveau de maîtrise, du temps disponible et des dates d'examens. "
+                "Tes plannings sont concrets (activités précises, pas vague), bienveillants et encourageants."
+            ),
+            messages=[{"role": "user", "content": prompt}],
+        )
+        print(f"✅ Planning généré pour {len(request.examens)} examen(s)")
+        return PlanningResponse(planning=message.content[0].text)
+
+    except Exception as e:
+        print(f"❌ Erreur planning: {e}")
+        return PlanningResponse(planning="❌ Erreur lors de la génération. Réessaie dans quelques instants !")
 
 
 # ── Mode & Outfit ────────────────────────────────────────────────────────────
