@@ -121,11 +121,17 @@ let sidebarManager;
 document.addEventListener('DOMContentLoaded', () => {
   sidebarManager = new SidebarManager();
 
-  // Initialiser la sidebar comme visible au démarrage
-  const sidebar = document.getElementById('sidebar');
-  if (sidebar) {
-    sidebar.classList.add('visible');
-    console.log('✅ Sidebar initialisée comme visible');
+  const sidebar   = document.getElementById('sidebar');
+  const toggleBtn = document.getElementById('btn-toggle-sidebar');
+
+  if (window.innerWidth > 768) {
+    // Desktop : sidebar sticky toujours visible, bouton toggle caché
+    if (sidebar)    sidebar.classList.add('visible');
+    if (toggleBtn)  toggleBtn.classList.remove('visible');
+  } else {
+    // Mobile : sidebar masquée par défaut, bouton toggle visible
+    if (sidebar)    sidebar.classList.remove('visible');
+    if (toggleBtn)  toggleBtn.classList.add('visible');
   }
 });
 

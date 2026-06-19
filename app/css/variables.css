@@ -52,12 +52,12 @@
   --radius-2xl: 20px;
   --radius-full: 50%;
 
-  /* Z-index */
-  --z-overlay: 998;
-  --z-modal: 999;
-  --z-modal-content: 1000;
-  --z-tooltip: 1001;
-  --z-fixed: 999;
+  /* Z-index — modals toujours au-dessus de tout */
+  --z-fixed: 200;
+  --z-overlay: 1000;
+  --z-modal: 1100;
+  --z-modal-content: 1200;
+  --z-tooltip: 1300;
 }
 
 /* Mode sombre (optionnel) */

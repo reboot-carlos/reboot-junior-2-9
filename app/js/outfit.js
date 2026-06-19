@@ -10,13 +10,17 @@ let _outfitStyle    = 'Streetwear';
 
 // ── Ouvrir / Fermer ───────────────────────────────────────────────────────────
 function ouvrirOutfit() {
-  document.getElementById('modal-outfit')?.classList.add('active');
-  document.getElementById('modal-overlay')?.classList.add('active');
+  const modal   = document.getElementById('modal-outfit');
+  const overlay = document.getElementById('modal-overlay');
+  if (modal)   modal.classList.add('active');
+  if (overlay) overlay.classList.add('active');
 }
 
 function fermerOutfit() {
-  document.getElementById('modal-outfit')?.classList.remove('active');
-  document.getElementById('modal-overlay')?.classList.remove('active');
+  const modal   = document.getElementById('modal-outfit');
+  const overlay = document.getElementById('modal-overlay');
+  if (modal)   modal.classList.remove('active');
+  if (overlay) overlay.classList.remove('active');
 }
 
 // ── Pills ─────────────────────────────────────────────────────────────────────
@@ -34,6 +38,11 @@ document.addEventListener('DOMContentLoaded', () => {
   _outfitPills('outfit-saison-pills',   v => { _outfitSaison   = v; });
   _outfitPills('outfit-occasion-pills', v => { _outfitOccasion = v; });
   _outfitPills('outfit-style-pills',    v => { _outfitStyle    = v; });
+
+  // Event listener robuste sur le bouton sidebar (backup du onclick inline)
+  document.querySelectorAll('.btn-mode-sidebar').forEach(btn => {
+    btn.addEventListener('click', ouvrirOutfit);
+  });
 });
 
 // ── Upload image ──────────────────────────────────────────────────────────────

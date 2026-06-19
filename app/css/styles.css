@@ -39,7 +39,7 @@ header {
   width: 100%;
   background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--accent) 100%);
   color: var(--white);
-  padding: var(--spacing-xl) var(--spacing-lg);
+  padding: 14px var(--spacing-lg);
   box-shadow: var(--shadow-primary);
   position: sticky;
   top: 0;
@@ -100,12 +100,12 @@ nav a:hover {
 main {
   flex: 1;
   display: flex;
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
   width: 100%;
-  gap: var(--spacing-lg);
-  padding: var(--spacing-lg);
-  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+  align-items: flex-start;   /* permet le sticky sidebar */
 }
 
 /* =========================================
@@ -215,26 +215,25 @@ input::placeholder {
 @media (max-width: 768px) {
   main {
     flex-direction: column;
-    padding: var(--spacing-md);
+    padding: 12px;
+    gap: 12px;
   }
 
   header {
-    padding: var(--spacing-md) var(--spacing-md);
+    padding: 10px 14px;
   }
 
   .header-container {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  nav {
-    margin-left: 0;
-    width: 100%;
-    flex-direction: column;
+    gap: 8px;
   }
 
   .logo-text {
     font-size: var(--font-size-lg);
+  }
+
+  nav {
+    margin-left: auto;
+    gap: 8px;
   }
 }
 
