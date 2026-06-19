@@ -102,6 +102,9 @@
           <button class="btn-tool-sidebar" onclick="ouvrirSelecteurIcone()" aria-label="Icône">
             🌟<span>Icône</span>
           </button>
+          <button class="btn-tool-sidebar" onclick="ouvrirOral()" aria-label="Entraînement oral">
+            🎤<span>Oral</span>
+          </button>
           <button class="btn-tool-sidebar btn-tool-full" onclick="ouvrirCorrection()" data-open-correction aria-label="Corriger mon texte">
             ✍️<span>Corriger</span>
           </button>
@@ -350,6 +353,100 @@
         </div>
       </div>
       <pre id="music-output" class="music-output"></pre>
+    </div>
+
+  </div>
+
+  <!-- ══════════════ MODAL ORAL ══════════════ -->
+  <div id="modal-oral" class="modal modal-oral" role="dialog" aria-modal="true">
+
+    <div class="modal-header oral-header">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span style="font-size:2.2rem;">🎤</span>
+        <div>
+          <h3 style="margin:0;font-size:1.05rem;color:#fff;">ENTRAÎNEMENT À L'ORAL</h3>
+          <span style="font-size:0.72rem;color:rgba(255,255,255,.8);">Coach IA pour améliorer ta présentation</span>
+        </div>
+      </div>
+      <button id="btn-fermer-oral" class="btn-modal-close"
+              style="background:rgba(255,255,255,.2);color:#fff;border-color:rgba(255,255,255,.3);">✕</button>
+    </div>
+
+    <!-- Texte de la présentation -->
+    <div class="oral-field">
+      <label class="oral-label" for="oral-texte">📄 Tape ou colle le texte de ta présentation</label>
+      <textarea id="oral-texte" class="oral-textarea"
+                oninput="document.getElementById('oral-count').textContent=this.value.length"
+                placeholder="Colle ici ce que tu vas dire à l'oral...
+
+Exemple :
+Bonjour, aujourd'hui je vais vous parler de la photosynthèse. C'est le processus par lequel les plantes utilisent la lumière du soleil pour fabriquer leur nourriture..."></textarea>
+      <div style="text-align:right;font-size:.75rem;color:#aaa;"><span id="oral-count">0</span> caractères</div>
+    </div>
+
+    <!-- Sujet -->
+    <div class="oral-field">
+      <label class="oral-label" for="oral-sujet">🎯 Sujet de ta présentation <span style="font-weight:400;opacity:.6;">(optionnel)</span></label>
+      <input id="oral-sujet" type="text" class="oral-input"
+             placeholder="Ex: La Révolution française, le changement climatique, mon livre préféré..." />
+    </div>
+
+    <!-- Contexte -->
+    <div class="oral-field">
+      <label class="oral-label">📋 Contexte</label>
+      <div class="oral-pills-row" id="oral-contexte-pills">
+        <button class="oral-pill active" data-val="Exposé classe">🏫 Exposé classe</button>
+        <button class="oral-pill" data-val="Oral d'examen">📚 Oral examen</button>
+        <button class="oral-pill" data-val="Oral de langue">🌍 Oral langue</button>
+        <button class="oral-pill" data-val="Débat">💬 Débat</button>
+        <button class="oral-pill" data-val="Présentation projet">🚀 Projet</button>
+      </div>
+    </div>
+
+    <!-- Niveau + Durée -->
+    <div class="oral-two-cols">
+      <div class="oral-field">
+        <label class="oral-label">🎓 Niveau</label>
+        <div class="oral-pills-row" id="oral-niveau-pills">
+          <button class="oral-pill" data-val="CM1-CM2">🌱 Primaire</button>
+          <button class="oral-pill active" data-val="6ème-5ème">📚 6e-5e</button>
+          <button class="oral-pill" data-val="4ème-3ème">📖 4e-3e</button>
+          <button class="oral-pill" data-val="Lycée">🎓 Lycée</button>
+        </div>
+      </div>
+      <div class="oral-field">
+        <label class="oral-label">⏱️ Durée cible</label>
+        <div class="oral-pills-row" id="oral-duree-pills">
+          <button class="oral-pill" data-val="2 min">2 min</button>
+          <button class="oral-pill active" data-val="5 min">5 min</button>
+          <button class="oral-pill" data-val="10 min">10 min</button>
+          <button class="oral-pill" data-val="15+ min">15+ min</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bouton analyser -->
+    <button id="btn-analyser-oral" class="btn-oral-analyse">
+      🎤 ANALYSER MON ORAL
+    </button>
+
+    <!-- Chargement -->
+    <div id="oral-loading" style="display:none;flex-direction:column;align-items:center;gap:10px;padding:24px 0;">
+      <div class="oral-spin">🎤</div>
+      <p style="font-weight:700;color:#7C3AED;">Ton coach IA écoute et analyse...</p>
+      <p style="font-size:.82rem;color:#999;">10-20 secondes</p>
+    </div>
+
+    <!-- Résultat -->
+    <div id="oral-result" style="display:none;">
+      <div class="oral-result-header">
+        <span>✅ Analyse terminée !</span>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button id="btn-copier-oral" class="btn btn-secondary">📋 Copier</button>
+          <button id="btn-nouvel-oral" class="btn btn-secondary">🔄 Nouvel essai</button>
+        </div>
+      </div>
+      <pre id="oral-output" class="oral-output"></pre>
     </div>
 
   </div>
@@ -827,6 +924,7 @@ Ex: Hier, je suis allé au cinéma avec mes amis. Nous avons regarder un film da
   </div>
 
   <!-- Scripts — nouveaux modules en premier pour que leurs fonctions soient dispo -->
+  <script src="js/oral.js" defer></script>
   <script src="js/musique.js" defer></script>
   <script src="js/correction.js" defer></script>
   <script src="js/planning.js" defer></script>

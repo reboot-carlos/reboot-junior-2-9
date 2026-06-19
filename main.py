@@ -39,6 +39,18 @@ class MessageRequest(BaseModel):
     langue: str = "fr"
 
 
+class OralRequest(BaseModel):
+    texte:    str
+    sujet:    str = ""
+    contexte: str = "Exposé classe"
+    niveau:   str = "6ème-5ème"
+    duree:    str = "5 min"
+
+
+class OralResponse(BaseModel):
+    conseils: str
+
+
 class MusiqueRequest(BaseModel):
     humeur:         str       = "Motivé(e)"
     genres:         List[str] = []
@@ -246,6 +258,95 @@ def get_langues():
         "langues": ["fr", "en", "he"],
         "descriptions": {"fr": "Français", "en": "English", "he": "עברית"},
     }
+
+
+# ── Entraînement à l'oral ────────────────────────────────────────────────────
+
+@app.post("/oral")
+def analyser_oral(request: OralRequest) -> OralResponse:
+    if not client:
+        return OralResponse(conseils="❌ Claude API non disponible.")
+
+    texte = request.texte.strip()
+    if not texte:
+        return OralResponse(conseils="❌ Le texte est vide.")
+
+    sujet_str = f"Sujet : {request.sujet}\n" if request.sujet.strip() else ""
+
+    prompt = (
+        f"{sujet_str}"
+        f"Contexte : {request.contexte}\n"
+        f"Niveau : {request.niveau}\n"
+        f"Durée cible : {request.duree}\n\n"
+        "--- TEXTE DE LA PRÉSENTATION ---\n"
+        f"{texte}\n"
+        "--- FIN DU TEXTE ---\n\n"
+        "Analyse cette présentation et donne des conseils précis. "
+        "Respecte EXACTEMENT ce format :\n\n"
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        "🎤 ANALYSE DE TA PRÉSENTATION ORALE\n"
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
+        "✅ CE QUI EST DÉJÀ BIEN\n"
+        "• [point positif 1]\n"
+        "• [point positif 2]\n"
+        "(cite des éléments précis du texte)\n\n"
+        "📋 STRUCTURE DE TA PRÉSENTATION\n"
+        "• Introduction : [analyse + conseil]\n"
+        "• Développement : [analyse + conseil]\n"
+        "• Conclusion : [analyse + conseil]\n\n"
+        "🗣️ EXPRESSION ET VOCABULAIRE\n"
+        "• [Conseil vocabulaire adapté au niveau]\n"
+        "• [Mots de liaison / connecteurs à utiliser]\n"
+        "• [Formules à l'oral : 'Pour commencer...', 'En effet...', 'Pour conclure...']\n\n"
+        f"⏱️ GESTION DU TEMPS ({request.duree})\n"
+        "• [Est-ce que le texte correspond à la durée ? Trop court / trop long ?]\n"
+        "• [Conseil sur le rythme]\n\n"
+        "💪 CONSEILS DE PRÉSENTATION\n"
+        "• Voix : [conseil sur débit, articulation, intonation]\n"
+        "• Posture : [conseil sur gestuelle, contact visuel]\n"
+        "• Stress : [conseil pour gérer le trac]\n"
+        "• Astuce pro : [un conseil original qui marque]\n\n"
+        "✏️ UNE PHRASE AMÉLIORÉE (exemple)\n"
+        "[Prends une phrase du texte qui peut être mieux formulée]\n"
+        "❌ Version originale : \"[phrase originale]\"\n"
+        "✅ Version améliorée : \"[ta version retravaillée]\"\n\n"
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        "📊 BILAN\n"
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        "• Structure : [/5]\n"
+        "• Expression : [/5]\n"
+        "• Contenu : [/5]\n"
+        "• 🌟 Note globale : [X/20]\n\n"
+        "💪 [Message d'encouragement personnalisé et bienveillant]"
+    )
+
+    niveaux_desc = {
+        "CM1-CM2":   "primaire (9-11 ans), langage très simple, encouragements++",
+        "6ème-5ème": "collège début (11-13 ans), exigences de base, bienveillant",
+        "4ème-3ème": "collège fin (13-15 ans), exigences complètes, style soigné",
+        "Lycée":     "lycée (15-18 ans), niveau élevé, argumentation et rhétorique",
+    }
+    niveau_desc = niveaux_desc.get(request.niveau, niveaux_desc["6ème-5ème"])
+
+    try:
+        message = client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=2000,
+            system=(
+                f"Tu es un coach en prise de parole bienveillant pour un(e) élève de {niveau_desc}. "
+                "Tu analyses les présentations orales avec précision et bienveillance. "
+                "Tu donnes des conseils concrets, applicables immédiatement. "
+                "Tu identifies des points positifs AVANT les points à améliorer. "
+                "Tu termines toujours par un encouragement motivant."
+            ),
+            messages=[{"role": "user", "content": prompt}],
+        )
+        print(f"✅ Oral analysé ({len(texte)} chars, {request.niveau}, {request.duree})")
+        return OralResponse(conseils=message.content[0].text)
+
+    except Exception as e:
+        print(f"❌ Erreur oral: {e}")
+        return OralResponse(conseils="❌ Erreur lors de l'analyse. Réessaie !")
 
 
 # ── Recommandations musicales ────────────────────────────────────────────────
