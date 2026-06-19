@@ -75,6 +75,9 @@
       <section class="sidebar-section">
         <label class="section-title">🛠️ Outils</label>
         <div class="tools-grid">
+          <button class="btn-tool-sidebar" onclick="ouvrirQuiz()" aria-label="Quiz Inhabituel">
+            🎯<span>Quiz</span>
+          </button>
           <button class="btn-tool-sidebar" onclick="afficherMenuJeux()" aria-label="Jeux">
             🎮<span>Jeux</span>
           </button>
@@ -252,6 +255,126 @@
     </div>
   </div>
 
+  <!-- ══════════════ MODAL QUIZ INHABITUEL ══════════════ -->
+  <div id="modal-quiz" class="modal modal-quiz" role="dialog" aria-modal="true">
+
+    <div class="modal-header">
+      <h3>🎯 QUIZ INHABITUEL</h3>
+      <button class="btn-modal-close" onclick="fermerQuiz()" aria-label="Fermer">✕</button>
+    </div>
+
+    <!-- Écran 1 : Configuration -->
+    <div id="quiz-screen-config">
+      <div class="quiz-config">
+
+        <div class="quiz-config-field">
+          <label class="quiz-label" for="quiz-sujet">🎯 Sur quel sujet ?</label>
+          <input id="quiz-sujet" type="text" class="quiz-input"
+                 placeholder="Ex: La Révolution française, les volcans, les fractions..."
+                 autocomplete="off" />
+        </div>
+
+        <div class="quiz-config-field">
+          <label class="quiz-label">📄 OU colle ton cours :</label>
+          <textarea id="quiz-texte" class="quiz-textarea" rows="4"
+                    placeholder="Colle le texte de ton cours ici..."></textarea>
+        </div>
+
+        <div class="quiz-config-field">
+          <label class="quiz-label">📸 OU envoie une photo de ton cours :</label>
+          <div class="quiz-upload-zone" onclick="document.getElementById('quiz-image-input').click()"
+               role="button" tabindex="0"
+               onkeydown="if(event.key==='Enter'||event.key===' ')this.click()">
+            <input type="file" id="quiz-image-input" accept="image/*"
+                   style="display:none" onchange="handleQuizImage(event)" />
+            <div id="quiz-upload-ph" style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+              <span style="font-size:1.8rem;">📸</span>
+              <span style="font-size:0.85rem;">Clique pour choisir une photo</span>
+            </div>
+            <img id="quiz-img-preview" src="" alt="Aperçu"
+                 style="display:none;max-width:100%;max-height:140px;border-radius:8px;object-fit:contain;" />
+          </div>
+        </div>
+
+        <!-- Sélecteurs -->
+        <div class="quiz-selectors">
+          <div class="quiz-selector-group">
+            <label class="quiz-label">📊 Nombre de questions</label>
+            <div class="quiz-pills" id="quiz-nb-pills">
+              <button class="quiz-pill active" data-value="5">5</button>
+              <button class="quiz-pill" data-value="10">10</button>
+              <button class="quiz-pill" data-value="15">15</button>
+            </div>
+          </div>
+          <div class="quiz-selector-group">
+            <label class="quiz-label">⚡ Difficulté</label>
+            <div class="quiz-pills" id="quiz-diff-pills">
+              <button class="quiz-pill" data-value="facile">😊 Facile</button>
+              <button class="quiz-pill active" data-value="moyen">🎯 Moyen</button>
+              <button class="quiz-pill" data-value="difficile">🔥 Difficile</button>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-quiz-start" onclick="demarrerQuiz()">
+          🎮 GÉNÉRER MON QUIZ INHABITUEL !
+        </button>
+      </div>
+    </div>
+
+    <!-- Écran 2 : Chargement -->
+    <div id="quiz-screen-loading" style="display:none;">
+      <div class="quiz-loading">
+        <div class="quiz-spin">🎯</div>
+        <p class="quiz-loading-txt">Je prépare des questions inhabituelles...</p>
+        <p style="font-size:0.82rem;color:#999;margin-top:4px;">~15 secondes</p>
+      </div>
+    </div>
+
+    <!-- Écran 3 : Question -->
+    <div id="quiz-screen-question" style="display:none;">
+      <!-- Barre de progression -->
+      <div class="quiz-prog-bar">
+        <div id="quiz-prog-fill" class="quiz-prog-fill"></div>
+      </div>
+      <div id="quiz-prog-txt" class="quiz-prog-txt">1 / 5</div>
+
+      <!-- Question -->
+      <div id="quiz-q-text" class="quiz-q-text"></div>
+
+      <!-- Choix -->
+      <div id="quiz-choices" class="quiz-choices"></div>
+
+      <!-- Feedback (caché jusqu'à réponse) -->
+      <div id="quiz-feedback" class="quiz-feedback" style="display:none;">
+        <div class="quiz-fb-top">
+          <span id="quiz-fb-icon" class="quiz-fb-icon"></span>
+          <span id="quiz-fb-txt"  class="quiz-fb-txt"></span>
+        </div>
+        <div id="quiz-fb-expl" class="quiz-fb-expl"></div>
+        <button id="quiz-fb-next" class="btn-quiz-next" onclick="_nextQ()">
+          Question suivante →
+        </button>
+      </div>
+    </div>
+
+    <!-- Écran 4 : Résultats -->
+    <div id="quiz-screen-results" style="display:none;">
+      <div class="quiz-results">
+        <div id="quiz-res-emoji" class="quiz-res-emoji"></div>
+        <div id="quiz-res-score" class="quiz-res-score"></div>
+        <div id="quiz-res-pct"   class="quiz-res-pct"></div>
+        <div id="quiz-res-msg"   class="quiz-res-msg"></div>
+        <div id="quiz-res-recap" class="quiz-res-recap"></div>
+        <div class="quiz-res-btns">
+          <button onclick="rejouerQuiz()" class="btn btn-primary">🔄 Rejouer</button>
+          <button onclick="nouveauQuiz()" class="btn btn-secondary">🎯 Nouveau sujet</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
   <!-- Modal : Fiche de révision -->
   <div id="modal-fiche" class="modal modal-fiche" role="dialog" aria-modal="true" aria-labelledby="fiche-modal-title">
 
@@ -334,6 +457,7 @@
   </div>
 
   <!-- Scripts — nouveaux modules en premier pour que leurs fonctions soient dispo -->
+  <script src="js/quiz.js" defer></script>
   <script src="js/fiche.js" defer></script>
   <script src="js/themes.js" defer></script>
   <script src="js/icons.js" defer></script>

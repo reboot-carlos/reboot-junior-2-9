@@ -3,7 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, List
+import json
+import re
 import os
 from anthropic import Anthropic
 from dotenv import load_dotenv
@@ -35,6 +37,28 @@ app.add_middleware(
 class MessageRequest(BaseModel):
     texte: str
     langue: str = "fr"
+
+
+class QuizRequest(BaseModel):
+    sujet:        str           = ""
+    texte:        str           = ""
+    image_base64: Optional[str] = None
+    media_type:   str           = "image/jpeg"
+    nb_questions: int           = 5
+    difficulte:   str           = "moyen"
+    langue:       str           = "fr"
+
+
+class QuizQuestion(BaseModel):
+    question:     str
+    choix:        List[str]
+    bonne_reponse: int
+    explication:  str
+
+
+class QuizResponse(BaseModel):
+    titre:     str
+    questions: List[QuizQuestion]
 
 
 class FicheRequest(BaseModel):
@@ -170,6 +194,120 @@ def get_langues():
         "langues": ["fr", "en", "he"],
         "descriptions": {"fr": "Français", "en": "English", "he": "עברית"},
     }
+
+
+# ── Quiz Inhabituel ──────────────────────────────────────────────────────────
+
+def _clean_json(text: str) -> str:
+    """Extrait le JSON de la réponse Claude (supprime les blocs markdown)."""
+    text = re.sub(r'```json\s*', '', text)
+    text = re.sub(r'```\s*',     '', text)
+    text = text.strip()
+    start, end = text.find('{'), text.rfind('}') + 1
+    if start != -1 and end > start:
+        text = text[start:end]
+    return text
+
+
+@app.post("/quiz")
+def creer_quiz(request: QuizRequest) -> QuizResponse:
+    if not client:
+        return QuizResponse(
+            titre="Quiz non disponible",
+            questions=[QuizQuestion(
+                question="Claude API non configurée.",
+                choix=["Configure .env", "...", "...", "..."],
+                bonne_reponse=0,
+                explication="Ajoute ta clé ANTHROPIC_API_KEY dans .env"
+            )]
+        )
+
+    sujet_affiche = request.sujet or "le cours fourni"
+    diff_map      = {"facile": "simples", "moyen": "modérées", "difficile": "difficiles et subtiles"}
+    niveau        = diff_map.get(request.difficulte, "modérées")
+
+    json_template = (
+        '{\n'
+        '  "titre": "Quiz Inhabituel : [SUJET]",\n'
+        '  "questions": [\n'
+        '    {\n'
+        '      "question": "Ta question surprenante ici ?",\n'
+        '      "choix": ["Réponse A", "Réponse B", "Réponse C", "Réponse D"],\n'
+        '      "bonne_reponse": 0,\n'
+        '      "explication": "Explication courte et mémorable."\n'
+        '    }\n'
+        '  ]\n'
+        '}'
+    )
+
+    instructions = (
+        f"Génère EXACTEMENT {request.nb_questions} questions de difficulté {niveau} "
+        f"sur : {sujet_affiche}.\n\n"
+        "RÈGLES IMPORTANTES :\n"
+        "- Questions INHABITUELLES et surprenantes (pas les classiques ennuyeuses)\n"
+        "- Inclure des faits insolites, analogies amusantes, connexions inattendues\n"
+        "- Les mauvaises réponses doivent être plausibles\n"
+        "- Explication courte, claire et mémorable\n"
+        "- Toujours 4 choix (index 0 à 3), bonne_reponse = index correct\n\n"
+        f"Réponds UNIQUEMENT avec ce JSON (rien d'autre, aucun texte autour) :\n{json_template}"
+    )
+
+    try:
+        if request.image_base64:
+            content = [
+                {
+                    "type": "image",
+                    "source": {
+                        "type":       "base64",
+                        "media_type": request.media_type,
+                        "data":       request.image_base64,
+                    },
+                },
+                {"type": "text", "text": f"Analyse ce cours en image puis :\n{instructions}"},
+            ]
+        elif request.texte:
+            content = f"Voici le cours :\n\n{request.texte}\n\n{instructions}"
+        else:
+            content = instructions
+
+        message = client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=2500,
+            system=(
+                "Tu es un créateur de quiz INHABITUEL et surprenant pour collégiens (11-15 ans). "
+                "Tes questions sont originales, inattendues, amusantes. "
+                "Tu génères UNIQUEMENT du JSON valide, rien d'autre."
+            ),
+            messages=[{"role": "user", "content": content}],
+        )
+
+        raw  = message.content[0].text
+        data = json.loads(_clean_json(raw))
+
+        questions = [
+            QuizQuestion(
+                question      = q["question"],
+                choix         = q["choix"][:4],
+                bonne_reponse = int(q["bonne_reponse"]),
+                explication   = q.get("explication", ""),
+            )
+            for q in data.get("questions", [])
+        ]
+
+        print(f"✅ Quiz généré : {len(questions)} questions sur '{sujet_affiche}'")
+        return QuizResponse(titre=data.get("titre", f"Quiz : {sujet_affiche}"), questions=questions)
+
+    except Exception as e:
+        print(f"❌ Erreur quiz: {e}")
+        return QuizResponse(
+            titre="Erreur",
+            questions=[QuizQuestion(
+                question     = "Une erreur est survenue lors de la génération.",
+                choix        = ["Réessaie !", "...", "...", "..."],
+                bonne_reponse = 0,
+                explication  = str(e)[:100],
+            )]
+        )
 
 
 # ── Fiche de révision ────────────────────────────────────────────────────────
