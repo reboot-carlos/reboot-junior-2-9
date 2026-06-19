@@ -1,0 +1,109 @@
+/* =========================================
+   ANIMATIONS — Effets visuels chatbot
+   ========================================= */
+
+/* Étincelles/paillettes sur le logo */
+@keyframes paillettes {
+  0%, 100% {
+    text-shadow:
+      0 0 5px #FFD700,
+      0 0 10px #FFD700,
+      0 0 20px #FF6B9D,
+      0 0 40px #FF6B9D;
+  }
+  50% {
+    text-shadow:
+      0 0 10px #fff,
+      0 0 20px #FFD700,
+      0 0 40px #FFD700,
+      0 0 60px #FF6B9D;
+  }
+}
+
+/* Scintillement de l'emoji logo */
+@keyframes scintille {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  25% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1) rotate(5deg);
+  }
+  75% {
+    opacity: 0.9;
+    transform: scale(1.05) rotate(-3deg);
+  }
+}
+
+/* Shimmer sur les étoiles des boutons suggestion */
+@keyframes etoile-shimmer {
+  0%, 100% {
+    color: #FFD700;
+    text-shadow: 0 0 5px #FFD700;
+    transform: scale(1);
+  }
+  50% {
+    color: #fff;
+    text-shadow: 0 0 10px #FFD700, 0 0 20px #FF6B9D;
+    transform: scale(1.2);
+  }
+}
+
+/* Lueur néon animée sur la zone de chat */
+@keyframes neon-glow {
+  0%, 100% {
+    box-shadow:
+      0 0 5px rgba(255, 107, 157, 0.4),
+      0 0 10px rgba(255, 107, 157, 0.3),
+      0 0 20px rgba(255, 215, 0, 0.2),
+      inset 0 0 10px rgba(255, 107, 157, 0.05);
+    border-color: rgba(255, 215, 0, 0.6);
+  }
+  50% {
+    box-shadow:
+      0 0 10px rgba(255, 107, 157, 0.6),
+      0 0 25px rgba(255, 107, 157, 0.5),
+      0 0 50px rgba(255, 215, 0, 0.4),
+      inset 0 0 20px rgba(255, 107, 157, 0.1);
+    border-color: rgba(255, 215, 0, 1);
+  }
+}
+
+/* Application des animations */
+
+.logo {
+  animation: scintille 3s ease-in-out infinite;
+}
+
+/* Paillettes sur le titre logo */
+.logo-text {
+  animation: paillettes 4s ease-in-out infinite;
+}
+
+/* Lueur néon sur la zone de chat */
+.chat-zone {
+  animation: neon-glow 2.5s ease-in-out infinite;
+  border: 2px solid rgba(255, 215, 0, 0.6);
+}
+
+/* Étoile shimmer sur les boutons suggestion */
+.btn-suggestion::after {
+  content: ' ✨';
+  display: inline;
+  animation: etoile-shimmer 2s ease-in-out infinite;
+}
+
+/* Réduire les animations si préférence utilisateur */
+@media (prefers-reduced-motion: reduce) {
+  .logo,
+  .logo-text,
+  .chat-zone,
+  .btn-suggestion::after {
+    animation: none;
+  }
+}

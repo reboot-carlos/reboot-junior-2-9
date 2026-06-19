@@ -1,0 +1,254 @@
+/* =========================================
+   MODALS — Overlay partagé + tous les modals
+   ========================================= */
+
+/* ---- Overlay partagé ---- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: var(--z-overlay, 900);
+  display: none;
+  backdrop-filter: blur(2px);
+}
+
+.modal-overlay.active {
+  display: block;
+}
+
+/* ---- Base modal ---- */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border-radius: var(--radius-lg, 16px);
+  box-shadow: var(--shadow-lg, 0 20px 60px rgba(0,0,0,0.3));
+  z-index: var(--z-modal, 1000);
+  display: none;
+  padding: var(--spacing-lg, 1.5rem);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal.active {
+  display: block;
+}
+
+/* Tailles spécifiques */
+.modal-dessin          { max-width: 520px;  width: 95vw; }
+.modal-createur-image  { max-width: 720px;  width: 95vw; }
+.modal-sauvegarde      { max-width: 420px;  width: 90vw; }
+.modal-icone           { max-width: 340px;  width: 90vw; }
+
+/* En-tête de modal */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md, 1rem);
+  padding-bottom: var(--spacing-sm, 0.5rem);
+  border-bottom: 2px solid var(--accent, #FFD1DC);
+}
+
+.modal-header h3 {
+  font-size: var(--font-size-lg, 1.2rem);
+  color: var(--primary, #FF6B9D);
+  margin: 0;
+}
+
+.btn-modal-close {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: var(--gray-medium, #666);
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.btn-modal-close:hover {
+  background: var(--accent, #FFD1DC);
+  color: var(--primary, #FF6B9D);
+}
+
+/* ---- Barre d'outils dessin ---- */
+.drawing-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--accent, #FFD1DC);
+  margin-bottom: 8px;
+}
+
+.drawing-toolbar label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  color: var(--dark, #1a0a0f);
+}
+
+.btn-tool {
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 2px solid var(--primary, #FF6B9D);
+  background: #fff;
+  color: var(--primary, #FF6B9D);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 600;
+}
+
+.btn-tool:hover {
+  background: var(--accent, #FFD1DC);
+  transform: translateY(-1px);
+}
+
+.btn-tool.active {
+  background: var(--primary, #FF6B9D);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(255, 107, 157, 0.4);
+}
+
+/* ---- Grille icônes ---- */
+.icon-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.icon-grid button {
+  font-size: 1.8rem;
+  background: none;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 4px;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.icon-grid button:hover {
+  border-color: var(--primary, #FF6B9D);
+  background: var(--accent, #FFD1DC);
+  transform: scale(1.1);
+}
+
+/* ---- Dropdown paramètres ---- */
+.settings-dropdown {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  min-width: 240px;
+  background: #fff;
+  border: 2px solid #FFD700;
+  border-radius: var(--radius-lg, 16px);
+  box-shadow: var(--shadow-lg, 0 20px 60px rgba(0,0,0,0.3));
+  z-index: var(--z-modal, 1000);
+  display: none;
+  overflow: hidden;
+}
+
+.settings-dropdown.active {
+  display: block;
+}
+
+.settings-menu-header {
+  padding: 14px 18px;
+  font-weight: 700;
+  color: var(--primary, #FF6B9D);
+  border-bottom: 2px solid var(--accent, #FFD1DC);
+  background: linear-gradient(135deg, var(--accent, #FFD1DC), #fff);
+}
+
+.settings-dropdown button {
+  width: 100%;
+  padding: 12px 18px;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 0.95rem;
+  font-family: inherit;
+  transition: background 0.2s;
+  color: var(--dark, #1a0a0f);
+}
+
+.settings-dropdown button:last-child {
+  border-bottom: none;
+}
+
+.settings-dropdown button:hover {
+  background: var(--accent, #FFD1DC);
+  color: var(--primary, #FF6B9D);
+}
+
+/* ---- Bouton langue sidebar ---- */
+.btn-langue {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: var(--radius-md, 8px);
+  border: 2px solid transparent;
+  background: var(--gray-light, #f8f4f6);
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-family: inherit;
+  transition: all 0.2s;
+  color: var(--dark, #1a0a0f);
+}
+
+.btn-langue:hover {
+  border-color: var(--primary, #FF6B9D);
+  background: var(--accent, #FFD1DC);
+}
+
+.btn-langue.active {
+  background: var(--primary, #FF6B9D);
+  color: #fff;
+  border-color: var(--primary, #FF6B9D);
+  font-weight: 700;
+}
+
+/* ---- Swatch couleur thème ---- */
+.theme-swatch.active {
+  outline: 3px solid #FFD700;
+  outline-offset: 2px;
+  transform: scale(1.15);
+}
+
+.theme-swatch:hover {
+  transform: scale(1.2);
+}
+
+/* ---- Bouton settings header ---- */
+.btn-settings-header {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  font-size: 1.4rem;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-settings-header:hover {
+  background: rgba(255, 255, 255, 0.35);
+  transform: rotate(30deg);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .modal-createur-image { max-width: 98vw; }
+  .modal-dessin         { max-width: 98vw; }
+  .settings-dropdown    { right: 10px; left: 10px; min-width: unset; }
+}

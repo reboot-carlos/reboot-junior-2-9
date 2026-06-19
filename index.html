@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="TA CHATBOT ROSÉE - Ton assistante IA intelligente, accessible à tous. Chat, jeux, dessins et bien plus !" />
+  <title>TA CHATBOT ROSÉE - Assistante IA Intelligente</title>
+  <style>
+    :root {
+      --primary: #FF6B9D;
+      --secondary: #FF9FB2;
+      --accent: #FFD1DC;
+      --dark: #1a0a0f;
+      --light: #f8f4f6;
+      --white: #ffffff;
+      --shadow: 0 8px 32px rgba(255, 107, 157, 0.15);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #ffffff 0%, #fff5f8 50%, #fffafc 100%);
+      color: var(--dark);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* HEADER */
+    header {
+      width: 100%;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--accent) 100%);
+      color: var(--white);
+      padding: 2rem 1.5rem;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      border-bottom: 3px solid rgba(192, 192, 212, 0.3);
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+
+    .logo {
+      font-size: 2.5rem;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    /* MAIN */
+    main {
+      flex: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 3rem 1.5rem;
+    }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      animation: slideDown 0.8s ease-out;
+    }
+
+    .hero p {
+      font-size: 1.3rem;
+      color: #666;
+      margin-bottom: 2rem;
+      animation: slideUp 0.8s ease-out 0.2s both;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* BUTTONS */
+    .cta-buttons {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+      animation: slideUp 0.8s ease-out 0.4s both;
+    }
+
+    .btn {
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 25px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      box-shadow: 0 6px 20px rgba(255, 107, 157, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(255, 107, 157, 0.6);
+    }
+
+    /* FEATURES */
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      color: var(--dark);
+      margin-bottom: 3rem;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-bottom: 4rem;
+    }
+
+    .feature-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s;
+      border-left: 4px solid var(--primary);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 40px rgba(255, 107, 157, 0.2);
+    }
+
+    .feature-card h3 {
+      color: var(--primary);
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+
+    .feature-card p {
+      color: #666;
+      line-height: 1.8;
+    }
+
+    .icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--dark);
+      color: white;
+      padding: 3rem 1.5rem;
+      text-align: center;
+      margin-top: auto;
+    }
+
+    footer p {
+      opacity: 0.8;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .hero p {
+        font-size: 1.1rem;
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      main {
+        padding: 2rem 1rem;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+    }
+
+    /* ACCESSIBILITY */
+    :focus-visible {
+      outline: 3px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: var(--primary);
+      color: white;
+      padding: 8px;
+      z-index: 1000;
+      text-decoration: none;
+    }
+
+    .skip-link:focus {
+      top: 0;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Aller au contenu principal</a>
+
+  <!-- HEADER -->
+  <header role="banner">
+    <div class="header-container">
+      <div class="logo">
+        💕 TA CHATBOT ROSÉE
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main id="main" role="main">
+    <!-- HERO -->
+    <section class="hero">
+      <h1>✨ Bienvenue sur TA CHATBOT ROSÉE ✨</h1>
+      <p>Ton assistante IA intelligente, accessible à tous, multilingue et pleine de surprises !</p>
+
+      <div class="cta-buttons">
+        <a href="app/chatbot.html" class="btn btn-primary">🚀 Découvrir le Chatbot</a>
+        <a href="#features" class="btn btn-primary" style="background: rgba(255, 107, 157, 0.2); color: var(--primary); border: 2px solid var(--primary);">📖 En Savoir Plus</a>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section id="features">
+      <h2 class="section-title">Ce Que Tu Peux Faire 🎯</h2>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="icon">💬</div>
+          <h3>Chat Intelligent</h3>
+          <p>Pose tes questions à une IA intelligente. Obtiens des réponses claires et détaillées sur n'importe quel sujet !</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="icon">🎭</div>
+          <h3>3 Personnalités Uniques</h3>
+          <p>Le Prof pour apprendre, L'Amie pour discuter, Rosée pour la créativité. Choisir celle que tu préfères !</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="icon">📚</div>
+          <h3>Aide aux Devoirs</h3>
+          <p>Des explications claires pour comprendre les maths, le français, l'histoire et bien plus !</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="icon">💾</div>
+          <h3>Sauvegarde tes Conversations</h3>
+          <p>Garde tes discussions importantes. Reprends quand tu veux sans rien perdre !</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="icon">🌍</div>
+          <h3>Multilingue</h3>
+          <p>Français, Anglais, Hébreu... Communique dans ta langue préférée !</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="icon">⚡</div>
+          <h3>Rapide et Fluide</h3>
+          <p>Interface réactive et agréable. Aucun lag, aucune frustration !</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer role="contentinfo">
+    <p>&copy; 2026 TA CHATBOT ROSÉE. Tous droits réservés. 💕</p>
+    <p style="margin-top: 0.5rem; font-size: 0.9rem;">Fait avec ❤️ pour rendre l'IA accessible à tous</p>
+  </footer>
+</body>
+</html>

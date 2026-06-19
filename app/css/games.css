@@ -1,0 +1,145 @@
+/* =========================================
+   GAMES — Menu jeux + Snake game
+   ========================================= */
+
+/* ---- Menu des jeux ---- */
+#menu-jeux {
+  display: none;
+  flex-direction: column;
+  align-items: stretch;
+  min-width: 260px;
+  max-width: 300px;
+  padding: 1rem;
+  background: linear-gradient(135deg, #1a0a0f 0%, #2a1420 100%);
+  border-radius: var(--radius-lg, 16px);
+  border: 3px solid #FFD700;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.3), 0 0 40px rgba(255, 107, 157, 0.2);
+  gap: 10px;
+  align-self: flex-start;
+  margin-top: var(--spacing-lg, 1.5rem);
+}
+
+#menu-jeux.actif {
+  display: flex;
+}
+
+/* ---- Conteneur Snake ---- */
+#jeu-serpent-container {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  min-width: 260px;
+  max-width: 300px;
+  padding: 1rem;
+  background: linear-gradient(135deg, #1a0a0f 0%, #2a1420 100%);
+  border-radius: var(--radius-lg, 16px);
+  border: 3px solid #FFD700;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.3), 0 0 40px rgba(255, 107, 157, 0.2);
+  align-self: flex-start;
+  margin-top: var(--spacing-lg, 1.5rem);
+}
+
+#jeu-serpent-container.actif {
+  display: flex;
+}
+
+/* ---- Canvas Snake ---- */
+#canvas-serpent {
+  display: block;
+  border: 3px solid #FFD700;
+  border-radius: 10px;
+  background: #1a3322;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+}
+
+/* ---- Titre de jeu ---- */
+.jeu-titre {
+  color: #FFD700;
+  font-weight: 900;
+  font-size: 1.1rem;
+  text-align: center;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+  letter-spacing: 0.05em;
+}
+
+/* ---- Info jeu (score, contrôles) ---- */
+.jeu-info {
+  color: #FFD700;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+/* ---- Boutons de jeu (menu) ---- */
+.btn-jeu {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 215, 0, 0.5);
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-family: inherit;
+  text-align: left;
+  transition: all 0.2s;
+}
+
+.btn-jeu:hover {
+  background: rgba(255, 215, 0, 0.2);
+  border-color: #FFD700;
+  transform: translateX(4px);
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.btn-jeu span:first-child {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.btn-jeu strong {
+  display: block;
+  font-size: 0.9rem;
+  color: #FFD700;
+}
+
+.btn-jeu small {
+  display: block;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* ---- Bouton retour ---- */
+.btn-jeu-retour {
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 215, 0, 0.5);
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-family: inherit;
+  transition: all 0.2s;
+  width: 100%;
+}
+
+.btn-jeu-retour:hover {
+  background: rgba(255, 215, 0, 0.2);
+  border-color: #FFD700;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  #menu-jeux,
+  #jeu-serpent-container {
+    max-width: 100%;
+    min-width: unset;
+    width: 100%;
+    margin-top: var(--spacing-sm, 0.5rem);
+    align-self: stretch;
+  }
+}

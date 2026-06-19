@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="TA CHATBOT ROSÉE - Ton assistante IA intelligente, accessible à tous. Chat, jeux, dessins et bien plus !" />
+  <title>TA CHATBOT ROSÉE - Assistante IA Intelligente</title>
+  <style>
+    :root {
+      --primary: #FF6B9D;
+      --secondary: #FF9FB2;
+      --accent: #FFD1DC;
+      --dark: #1a0a0f;
+      --light: #f8f4f6;
+      --white: #ffffff;
+      --shadow: 0 8px 32px rgba(255, 107, 157, 0.15);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #ffffff 0%, #fff5f8 50%, #fffafc 100%);
+      color: var(--dark);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ========================= NAVIGATION ========================= */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+      z-index: 1000;
+      padding: 1rem 2rem;
+    }
+
+    nav .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--dark);
+      font-weight: 600;
+      transition: color 0.3s;
+      position: relative;
+    }
+
+    nav a:hover,
+    nav a:focus {
+      color: var(--primary);
+      outline: none;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: width 0.3s;
+    }
+
+    nav a:hover::after,
+    nav a:focus::after {
+      width: 100%;
+    }
+
+    /* ========================= HERO SECTION ========================= */
+    .hero {
+      margin-top: 80px;
+      padding: 5rem 2rem;
+      text-align: center;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      border-radius: 0 0 40px 40px;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      animation: slideDown 0.8s ease-out;
+    }
+
+    .hero p {
+      font-size: 1.3rem;
+      margin-bottom: 2rem;
+      opacity: 0.95;
+      animation: slideUp 0.8s ease-out 0.2s both;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: slideUp 0.8s ease-out 0.4s both;
+    }
+
+    .btn {
+      padding: 0.9rem 2rem;
+      border: none;
+      border-radius: 25px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: white;
+      color: var(--primary);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-primary:hover,
+    .btn-primary:focus {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 2px solid white;
+    }
+
+    .btn-secondary:hover,
+    .btn-secondary:focus {
+      background: white;
+      color: var(--primary);
+      outline: 2px solid white;
+      outline-offset: 2px;
+    }
+
+    /* ========================= FEATURES SECTION ========================= */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .features {
+      padding: 5rem 2rem;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+      color: var(--dark);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: var(--shadow);
+      transition: all 0.3s;
+      border-left: 4px solid var(--primary);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 40px rgba(255, 107, 157, 0.2);
+    }
+
+    .feature-card h3 {
+      color: var(--primary);
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+
+    .feature-card p {
+      color: #666;
+      line-height: 1.8;
+    }
+
+    .icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    /* ========================= CAPABILITIES SECTION ========================= */
+    .capabilities {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--secondary) 100%);
+      padding: 5rem 2rem;
+      border-radius: 30px;
+      margin: 3rem 2rem;
+    }
+
+    .capabilities h2 {
+      text-align: center;
+      color: var(--dark);
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .capabilities-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .capability-item {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 2rem 1.5rem;
+      border-radius: 15px;
+      text-align: center;
+      transition: all 0.3s;
+      border: 2px solid transparent;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .capability-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s;
+    }
+
+    .capability-item:hover {
+      transform: translateY(-8px);
+      background: white;
+      box-shadow: 0 12px 30px rgba(255, 107, 157, 0.2);
+      border-color: var(--secondary);
+    }
+
+    .capability-item:hover::before {
+      transform: scaleX(1);
+    }
+
+    .capability-item h4 {
+      color: var(--primary);
+      margin-bottom: 0.8rem;
+      font-size: 1.2rem;
+    }
+
+    .capability-item p {
+      color: #555;
+      line-height: 1.7;
+      font-size: 0.95rem;
+    }
+
+    /* ========================= ACCESSIBILITY SECTION ========================= */
+    .accessibility {
+      padding: 5rem 2rem;
+      background: white;
+    }
+
+    .accessibility-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .accessibility-content h2 {
+      color: var(--primary);
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .accessibility-list {
+      list-style: none;
+    }
+
+    .accessibility-list li {
+      padding: 0.8rem 0;
+      padding-left: 2.5rem;
+      position: relative;
+      font-size: 1.1rem;
+      color: #333;
+    }
+
+    .accessibility-list li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-weight: bold;
+      font-size: 1.3rem;
+    }
+
+    .accessibility-image {
+      text-align: center;
+      font-size: 5rem;
+    }
+
+    /* ========================= TESTIMONIALS SECTION ========================= */
+    .testimonials {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      padding: 5rem 2rem;
+      color: white;
+    }
+
+    .testimonials .section-title {
+      color: white;
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .testimonial-card {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 2rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      transition: all 0.3s;
+    }
+
+    .testimonial-card:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-5px);
+    }
+
+    .stars {
+      color: #FFD700;
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+    }
+
+    .testimonial-text {
+      margin-bottom: 1rem;
+      line-height: 1.8;
+    }
+
+    .testimonial-author {
+      font-weight: 700;
+      opacity: 0.9;
+    }
+
+    /* ========================= CTA SECTION ========================= */
+    .cta-section {
+      padding: 5rem 2rem;
+      text-align: center;
+      background: linear-gradient(135deg, rgba(255, 107, 157, 0.1) 0%, rgba(255, 209, 220, 0.15) 100%);
+    }
+
+    .cta-section h2 {
+      font-size: 2.5rem;
+      color: var(--dark);
+      margin-bottom: 1.5rem;
+    }
+
+    .cta-section p {
+      font-size: 1.2rem;
+      color: #666;
+      margin-bottom: 2rem;
+    }
+
+    /* ========================= FOOTER ========================= */
+    footer {
+      background: var(--dark);
+      color: white;
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+
+    footer .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .footer-section h4 {
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+
+    .footer-section a {
+      color: #ccc;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 0.5rem;
+      transition: color 0.3s;
+    }
+
+    .footer-section a:hover,
+    .footer-section a:focus {
+      color: var(--primary);
+      outline: none;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #333;
+      padding-top: 2rem;
+      opacity: 0.8;
+    }
+
+    /* ========================= RESPONSIVE ========================= */
+    @media (max-width: 768px) {
+      nav ul {
+        gap: 1rem;
+        font-size: 0.9rem;
+      }
+
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+
+      .hero p {
+        font-size: 1.1rem;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .accessibility-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .btn {
+        min-width: 250px;
+      }
+
+      .hero {
+        padding: 3rem 1rem;
+      }
+
+      .features {
+        padding: 3rem 1rem;
+      }
+    }
+
+    /* ========================= ACCESSIBILITY ========================= */
+    /* Focus visible pour clavier */
+    :focus-visible {
+      outline: 3px solid var(--primary);
+      outline-offset: 2px;
+    }
+
+    /* Haute contrast support */
+    @media (prefers-contrast: more) {
+      body {
+        background: white;
+      }
+
+      .hero {
+        background: var(--primary);
+      }
+
+      .feature-card {
+        border-left: 6px solid var(--primary);
+      }
+    }
+
+    /* Respect des préférences de mouvement */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* Skip to content link */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: var(--primary);
+      color: white;
+      padding: 8px;
+      z-index: 100;
+    }
+
+    .skip-link:focus {
+      top: 0;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Aller au contenu principal</a>
+
+  <!-- ============================================================
+       NAVIGATION
+       ============================================================ -->
+  <nav role="navigation" aria-label="Navigation principale">
+    <div class="container">
+      <div class="logo">💕 CHATBOT ROSÉE</div>
+      <ul>
+        <li><a href="#features">Fonctionnalités</a></li>
+        <li><a href="#accessibility">Accessibilité</a></li>
+        <li><a href="#cta" class="btn btn-primary" style="display: inline-block; padding: 0.6rem 1.5rem; margin: 0;">Essayer</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ============================================================
+       HERO SECTION
+       ============================================================ -->
+  <section class="hero">
+    <h1>✨ Bienvenue sur TA CHATBOT ROSÉE ✨</h1>
+    <p>Ton assistante IA intelligente, accessible à tous, multilingue et pleine de surprises !</p>
+    <div class="cta-buttons">
+      <a href="index.html" class="btn btn-primary">🚀 Découvrir le Chatbot</a>
+      <a href="#features" class="btn btn-secondary">📖 En Savoir Plus</a>
+    </div>
+  </section>
+
+  <main id="main">
+    <!-- ============================================================
+         FEATURES SECTION
+         ============================================================ -->
+    <section id="features" class="features">
+      <div class="container">
+        <h2 class="section-title">Ce Que Tu Peux Faire 🎯</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="icon">💬</div>
+            <h3>Chat Intelligent</h3>
+            <p>Pose tes questions à une IA intelligente. Obtiens des réponses claires et détaillées sur n'importe quel sujet !</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="icon">🎮</div>
+            <h3>Jeux Amusants</h3>
+            <p>Décompresse avec le jeu Snake et bien d'autres surprises. Le fun et l'apprentissage ensemble !</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="icon">🎨</div>
+            <h3>Application Dessin</h3>
+            <p>Dessine, colorie et crée ! Télécharge tes créations et partage-les avec tes amis.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="icon">🌍</div>
+            <h3>Multilingue</h3>
+            <p>Français, Anglais, Hébreu... Communique dans ta langue préférée !</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="icon">💾</div>
+            <h3>Sauvegarde tes Conversations</h3>
+            <p>Garde tes discussions importantes. Reprends quand tu veux sans rien perdre !</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="icon">⚡</div>
+            <h3>Rapide et Fluide</h3>
+            <p>Interface réactive et agréable. Aucune lag, aucune frustration !</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         CAPABILITIES SECTION
+         ============================================================ -->
+    <div class="container">
+      <section class="capabilities">
+        <h2>Les Jeux Inclus 🎮</h2>
+        <div class="capabilities-list">
+          <div class="capability-item">
+            <div class="icon">🐍</div>
+            <h4>SNAKE</h4>
+            <p><strong>Le classique intemporel !</strong><br>Mange les pommes 🍎 et agrandis ton serpent. Attention aux murs et à toi-même ! Défi : atteindre le score de 20 ! 🚀</p>
+          </div>
+
+          <div class="capability-item">
+            <div class="icon">🏃</div>
+            <h4>SUBWAY SURFER</h4>
+            <p><strong>Bientôt disponible !</strong><br>Cours, saute et esquive les obstacles du métro ! 🚆 Une explosion de fun à chaque partie. À venir très bientôt... ⏳</p>
+          </div>
+
+          <div class="capability-item">
+            <div class="icon">⬆️</div>
+            <h4>DOODLE JUMP</h4>
+            <p><strong>Bientôt disponible !</strong><br>Saute de plateforme en plateforme 📈 et monte le plus haut possible ! Esquive les ennemis et récolte les bonus. Challenge intense ! 💥</p>
+          </div>
+
+          <div class="capability-item">
+            <div class="icon">🎨</div>
+            <h4>APPLICATION DESSIN</h4>
+            <p><strong>Crée tes chefs-d'œuvre !</strong><br>Dessine, peins avec différentes couleurs 🌈 et télécharge tes créations. Outils de dessin profesionnels : crayon, gomme, palettes. Parfait pour laisser libre cours à ta créativité ! ✨</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ============================================================
+         ACCESSIBILITY SECTION
+         ============================================================ -->
+    <section id="accessibility" class="accessibility">
+      <div class="container">
+        <h2 class="section-title">♿ Accessible à Tous</h2>
+        <div class="accessibility-grid">
+          <div class="accessibility-content">
+            <h2>Conçu pour TOIT</h2>
+            <ul class="accessibility-list">
+              <li><strong>Contraste élevé</strong> — Facile à lire pour tous</li>
+              <li><strong>Police lisible</strong> — Pas de petits caractères pénibles</li>
+              <li><strong>Navigation clavier</strong> — Contrôle complet sans souris</li>
+              <li><strong>Pas d'animations forcées</strong> — Respect de tes préférences</li>
+              <li><strong>Labels clairs</strong> — Tout est expliqué</li>
+              <li><strong>Multilingue</strong> — Parlons ta langue !</li>
+              <li><strong>Responsive design</strong> — Fonctionne sur tous les écrans</li>
+              <li><strong>Performance</strong> — Charge rapidement, pas de lag</li>
+            </ul>
+          </div>
+          <div class="accessibility-image">
+            🎯
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TESTIMONIALS SECTION
+         ============================================================ -->
+    <section class="testimonials">
+      <h2 class="section-title">Ce Qu'en Pensent les Utilisateurs ⭐</h2>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="stars">⭐⭐⭐⭐⭐</div>
+          <p class="testimonial-text">"C'est DINGUE ! J'adore discuter avec elle, elle m'aide vraiment pour mes devoirs !"</p>
+          <p class="testimonial-author">— Sarah, 12 ans</p>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">⭐⭐⭐⭐⭐</div>
+          <p class="testimonial-text">"L'app de dessin est trop cool et le jeu snake me rend dingue (au bon sens !)"</p>
+          <p class="testimonial-author">— Thomas, 10 ans</p>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">⭐⭐⭐⭐⭐</div>
+          <p class="testimonial-text">"Super accessible, je peux naviguer facilement. Bravo au design ! 🎨"</p>
+          <p class="testimonial-author">— Marie, Utilisatrice</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         CTA SECTION
+         ============================================================ -->
+    <section id="cta" class="cta-section">
+      <div class="container">
+        <h2>Prêt à Découvrir ? 🚀</h2>
+        <p>Clique ci-dessous pour accéder au chatbot et commencer l'aventure !</p>
+        <a href="index.html" class="btn btn-primary">✨ Essayer Maintenant ✨</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer role="contentinfo">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4>À Propos</h4>
+          <p>TA CHATBOT ROSÉE est une assistante IA créée pour rendre l'apprentissage fun et accessible.</p>
+        </div>
+        <div class="footer-section">
+          <h4>Navigation</h4>
+          <a href="#features">Fonctionnalités</a>
+          <a href="#accessibility">Accessibilité</a>
+          <a href="#cta">Essayer</a>
+        </div>
+        <div class="footer-section">
+          <h4>Autres Liens</h4>
+          <a href="index.html">Accéder au Chatbot</a>
+          <a href="#">Politique de Confidentialité</a>
+          <a href="#">Conditions d'Utilisation</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 TA CHATBOT ROSÉE. Tous droits réservés. 💕</p>
+        <p style="margin-top: 0.5rem; opacity: 0.7;">Fait avec ❤️ pour rendre l'IA accessible à tous</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Smooth scroll et focus management
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (href !== '#' && document.querySelector(href)) {
+          e.preventDefault();
+          const target = document.querySelector(href);
+          target.scrollIntoView({ behavior: 'smooth' });
+          // Focus sur la section pour accessibilité
+          target.focus({ preventScroll: true });
+        }
+      });
+    });
+
+    // Analytics simple (optionnel)
+    console.log('✨ Landing page chargée ! Bienvenue sur TA CHATBOT ROSÉE');
+  </script>
+</body>
+</html>

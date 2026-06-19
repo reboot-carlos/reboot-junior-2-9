@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Chatbot Rosee</title>
+    <style>
+        body { font-family: Arial; padding: 20px; background: #f5f5f5; }
+        .test { background: white; padding: 15px; margin: 10px 0; border-radius: 8px; border-left: 4px solid #FF6B9D; }
+        .ok { border-left-color: green; }
+        .error { border-left-color: red; }
+        pre { background: #f0f0f0; padding: 10px; border-radius: 4px; overflow-x: auto; }
+        button { padding: 10px 20px; background: #FF6B9D; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #FF9FB2; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test Chatbot Rosee</h1>
+
+    <div class="test">
+        <h3>1️⃣ Test API FastAPI</h3>
+        <p>Vérifie si le serveur Python est lancé</p>
+        <button onclick="testerAPI()">Tester l'API</button>
+        <pre id="resultat-api">En attente...</pre>
+    </div>
+
+    <div class="test">
+        <h3>2️⃣ Test Normalisation du texte</h3>
+        <input type="text" id="texte-input" placeholder="Écris un message...">
+        <button onclick="testerNormalisation()">Normaliser</button>
+        <pre id="resultat-normalisation">En attente...</pre>
+    </div>
+
+    <div class="test">
+        <h3>3️⃣ Test Détection des mots-clés</h3>
+        <button onclick="testerDetection()">Tester la détection</button>
+        <pre id="resultat-detection">En attente...</pre>
+    </div>
+
+    <script>
+        async function testerAPI() {
+            const resultat = document.getElementById('resultat-api');
+            resultat.textContent = '⏳ Test en cours...';
+
+            try {
+                const response = await fetch('http://localhost:8000/');
+                if (response.ok) {
+                    const data = await response.json();
+                    resultat.textContent = '✅ API ACTIVE !\n' + JSON.stringify(data, null, 2);
+                    resultat.parentElement.classList.add('ok');
+                } else {
+                    resultat.textContent = '❌ API retourne erreur: ' + response.status;
+                    resultat.parentElement.classList.add('error');
+                }
+            } catch (e) {
+                resultat.textContent = '❌ API NON DISPONIBLE\n\nVérifies que tu as lancé:\npython main.py\n\nErreur: ' + e.message;
+                resultat.parentElement.classList.add('error');
+            }
+        }
+
+        function normaliser(texte) {
+            return texte.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+        }
+
+        function testerNormalisation() {
+            const texte = document.getElementById('texte-input').value;
+            const normalise = normaliser(texte);
+            const resultat = document.getElementById('resultat-normalisation');
+            resultat.textContent = `Original: "${texte}"\nNormalisé: "${normalise}"`;
+        }
+
+        function testerDetection() {
+            const textes = ['bonjour', 'Bonjour !', 'BONJOUR comment ça va', 'salut', 'coucou', 'aide'];
+            const mots_cles = ['bonjour', 'salut', 'coucou', 'hello'];
+
+            let resultat = 'Tests de détection:\n\n';
+
+            textes.forEach(texte => {
+                const normalise = normaliser(texte);
+                const trouve = mots_cles.some(m => normalise.includes(m));
+                resultat += `"${texte}" → "${normalise}" → ${trouve ? '✅ TROUVÉ' : '❌ NON TROUVÉ'}\n`;
+            });
+
+            document.getElementById('resultat-detection').textContent = resultat;
+        }
+
+        // Auto-test au chargement
+        console.log('🧪 Tests prêts ! Clique sur les boutons ci-dessus');
+    </script>
+</body>
+</html>

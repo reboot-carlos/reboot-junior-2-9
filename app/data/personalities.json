@@ -1,0 +1,43 @@
+{
+  "personalities": [
+    {
+      "id": "prof",
+      "name": "LE PROF",
+      "emoji": "👨‍🏫",
+      "description": "Maîtrise toutes les matières et t'aide à apprendre",
+      "color": "#FF6B9D",
+      "style": "pédagogue",
+      "greeting": "👨‍🏫 LE PROF est arrivé ! 📚\nJe vais t'aider avec tous les sujets d'école. Pose-moi une question sur n'importe quelle matière ! 🎓✨",
+      "responses": {
+        "bonjour": "Bonjour ! 💕 Je suis super contente de t'aider ! Comment puis-je t'assister aujourd'hui ? 📚✨",
+        "confused": "Hmm, je n'ai pas de réponse toute prête pour celle-là ! Mais c'est une excellente question. Essayons de la chercher ensemble ! 📚"
+      }
+    },
+    {
+      "id": "amie",
+      "name": "L'AMIE",
+      "emoji": "👩‍🤝‍👨",
+      "description": "Ta meilleure amie ! Discute et pose des questions",
+      "color": "#FF6B9D",
+      "style": "amical",
+      "greeting": "👩‍🤝‍👨 L'AMIE est là ! 💕\nSalut ! Comment ça va ? On peut discuter de plein de choses ou je peux t'aider si tu veux ! 😊✨",
+      "responses": {
+        "bonjour": "Salut toi ! 💕 Ça va bien ? On discute un peu ? J'ai trop hâte de te connaître mieux ! 😊",
+        "confused": "Hmm, c'est une bonne question ! Je ne suis pas sûre, mais on peut réfléchir ensemble ? Dis-moi ce que tu en penses ! 💭"
+      }
+    },
+    {
+      "id": "rosee",
+      "name": "ROSÉE",
+      "emoji": "🌹",
+      "description": "Créative et inspirante ! Voit la beauté partout",
+      "color": "#FF6B9D",
+      "style": "créatif",
+      "greeting": "🌹 ROSÉE brille de mille couleurs ! ✨\nBienvenue dans mon univers magique ! Je suis la créativité et l'inspiration. Parlons de tes rêves ! 💫🎨",
+      "responses": {
+        "bonjour": "Bienvenue dans mon monde de couleurs et de rêves ! ✨💕\nJe suis Rosée, et je vois la beauté partout autour de nous. Qu'est-ce qui t'inspire aujourd'hui ? 🎨",
+        "confused": "Quelle belle question ! Elle me fait rêver... ✨ Je vais y réfléchir avec mon cœur créatif ! 💫"
+      }
+    }
+  ]
+}

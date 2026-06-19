@@ -1,0 +1,43 @@
+# ── Secrets — NEVER bake into an image ───────────
+.env
+.env.*
+!.env.example
+
+# ── Python runtime & build artifacts ──────────────
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+
+# ── Git ───────────────────────────────────────────
+.git/
+.gitignore
+.gitattributes
+
+# ── Editor / OS ───────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ── Logs & temp ───────────────────────────────────
+*.log
+logs/
+tmp/
+temp/
+
+# ── Documentation (not needed in container) ───────
+*.md
+docs/
+MIGRATION.md
+QUICK_START.md
+STRUCTURE.md
+TEST_RESULTS.md

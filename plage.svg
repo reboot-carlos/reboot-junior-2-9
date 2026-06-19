@@ -1,0 +1,72 @@
+<svg viewBox="0 0 1000 800" xmlns="http://www.w3.org/2000/svg">
+  <!-- Ciel dégradé -->
+  <defs>
+    <linearGradient id="ciel" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E0F6FF;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="mer" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1E90FF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0047AB;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Ciel -->
+  <rect width="1000" height="400" fill="url(#ciel)"/>
+
+  <!-- Soleil -->
+  <circle cx="850" cy="100" r="60" fill="#FFD700" opacity="0.8"/>
+
+  <!-- Mer -->
+  <rect y="400" width="1000" height="400" fill="url(#mer)"/>
+
+  <!-- Vagues -->
+  <path d="M 0 420 Q 50 410, 100 420 T 200 420" stroke="#87CEEB" stroke-width="2" fill="none" opacity="0.6"/>
+  <path d="M 0 450 Q 50 440, 100 450 T 200 450" stroke="#87CEEB" stroke-width="2" fill="none" opacity="0.5"/>
+  <path d="M 0 480 Q 50 470, 100 480 T 200 480" stroke="#87CEEB" stroke-width="2" fill="none" opacity="0.4"/>
+
+  <!-- Sable -->
+  <ellipse cx="500" cy="420" rx="600" ry="30" fill="#F4A460" opacity="0.7"/>
+
+  <!-- Palmier 1 (gauche) -->
+  <g>
+    <!-- Tronc -->
+    <rect x="150" y="320" width="30" height="100" fill="#8B4513"/>
+    <!-- Feuilles -->
+    <ellipse cx="165" cy="300" rx="80" ry="40" fill="#228B22" transform="rotate(-30 165 300)"/>
+    <ellipse cx="165" cy="300" rx="80" ry="40" fill="#228B22" transform="rotate(0 165 300)"/>
+    <ellipse cx="165" cy="300" rx="80" ry="40" fill="#228B22" transform="rotate(30 165 300)"/>
+    <ellipse cx="165" cy="300" rx="80" ry="40" fill="#32CD32" transform="rotate(-60 165 300)"/>
+    <ellipse cx="165" cy="300" rx="80" ry="40" fill="#32CD32" transform="rotate(60 165 300)"/>
+  </g>
+
+  <!-- Palmier 2 (centre) -->
+  <g>
+    <!-- Tronc -->
+    <rect x="450" y="300" width="35" height="120" fill="#8B4513"/>
+    <!-- Feuilles -->
+    <ellipse cx="467" cy="270" rx="90" ry="45" fill="#228B22" transform="rotate(-35 467 270)"/>
+    <ellipse cx="467" cy="270" rx="90" ry="45" fill="#228B22" transform="rotate(0 467 270)"/>
+    <ellipse cx="467" cy="270" rx="90" ry="45" fill="#228B22" transform="rotate(35 467 270)"/>
+    <ellipse cx="467" cy="270" rx="90" ry="45" fill="#32CD32" transform="rotate(-70 467 270)"/>
+    <ellipse cx="467" cy="270" rx="90" ry="45" fill="#32CD32" transform="rotate(70 467 270)"/>
+  </g>
+
+  <!-- Palmier 3 (droite) -->
+  <g>
+    <!-- Tronc -->
+    <rect x="780" y="330" width="28" height="90" fill="#8B4513"/>
+    <!-- Feuilles -->
+    <ellipse cx="794" cy="315" rx="75" ry="35" fill="#228B22" transform="rotate(-40 794 315)"/>
+    <ellipse cx="794" cy="315" rx="75" ry="35" fill="#228B22" transform="rotate(0 794 315)"/>
+    <ellipse cx="794" cy="315" rx="75" ry="35" fill="#228B22" transform="rotate(40 794 315)"/>
+    <ellipse cx="794" cy="315" rx="75" ry="35" fill="#32CD32" transform="rotate(-70 794 315)"/>
+    <ellipse cx="794" cy="315" rx="75" ry="35" fill="#32CD32" transform="rotate(70 794 315)"/>
+  </g>
+
+  <!-- Nuages -->
+  <ellipse cx="100" cy="80" rx="50" ry="30" fill="white" opacity="0.6"/>
+  <ellipse cx="150" cy="75" rx="40" ry="25" fill="white" opacity="0.6"/>
+  <ellipse cx="900" cy="150" rx="60" ry="35" fill="white" opacity="0.5"/>
+  <ellipse cx="950" cy="140" rx="45" ry="28" fill="white" opacity="0.5"/>
+</svg>

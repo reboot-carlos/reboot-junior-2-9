@@ -1,0 +1,43 @@
+services:
+
+  # ── FastAPI backend ─────────────────────────────────────────────────────────
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    networks:
+      - chatbot-net
+    restart: unless-stopped
+    # API is NOT exposed externally — nginx proxies requests to it internally
+    expose:
+      - "8001"
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://localhost:8001/')"
+      interval: 30s
+      timeout: 10s
+      start_period: 15s
+      retries: 3
+
+  # ── Nginx frontend (static files + API reverse proxy) ──────────────────────
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      api:
+        condition: service_healthy
+    networks:
+      - chatbot-net
+    restart: unless-stopped
+
+networks:
+  chatbot-net:
+    driver: bridge

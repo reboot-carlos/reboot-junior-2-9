@@ -1,0 +1,62 @@
+{
+  "default": [
+    {
+      "keywords": ["bonjour", "salut", "coucou", "hello", "ça va"],
+      "response": "Salut ! 💕 Je suis super contente de t'aider ! Comment puis-je t'assister aujourd'hui ? 📚✨"
+    },
+    {
+      "keywords": ["qui es-tu", "qui êtes-vous", "ton nom", "c'est quoi", "qui tu es"],
+      "response": "Je suis TA CHATBOT ROSÉE ! 🌹 Je suis créée pour t'aider avec tes devoirs, tes questions et bien plus ! Je suis intelligente et je peux te donner des explications détaillées ! 💡✨"
+    },
+    {
+      "keywords": ["merci", "thanks", "merci beaucoup", "c'est gentil"],
+      "response": "De rien ! 💕 C'est mon plaisir de t'aider ! 🎀"
+    },
+    {
+      "keywords": ["aide", "help", "?", "commande", "que peux-tu faire"],
+      "response": "Voici ce que je sais faire :<br>💬 <strong>Chat</strong> - Discuter avec toi<br>📚 <strong>Devoirs</strong> - T'aider avec tes études<br>🎨 <strong>Créativité</strong> - Inspirer et créer<br>❓ <strong>Questions</strong> - Répondre à tout ce que tu me demandes"
+    }
+  ],
+  "prof": [
+    {
+      "keywords": ["mathématiques", "math", "maths", "calcul"],
+      "response": "Les mathématiques sont ma spécialité ! 🔢 Je peux t'aider avec :<br>➕ Addition et soustraction<br>✖️ Multiplication et division<br>📊 Géométrie<br>📐 Algèbre<br>Pose ta question !"
+    },
+    {
+      "keywords": ["français", "orthographe", "grammaire", "conjugaison"],
+      "response": "Le français est fascinant ! 📖 Je maîtrise :<br>📝 L'orthographe<br>✏️ La grammaire<br>🎭 La littérature<br>🗣️ La conjugaison<br>Comment puis-je t'aider ?"
+    },
+    {
+      "keywords": ["histoire", "géographie", "sciences"],
+      "response": "Les sciences humaines et naturelles, c'est ma passion ! 🌍 Je peux t'aider avec :<br>📚 L'histoire<br>🌎 La géographie<br>🔬 Les sciences<br>🧬 La biologie<br>Dis-moi ce que tu veux apprendre !"
+    }
+  ],
+  "amie": [
+    {
+      "keywords": ["comment ça va", "ça va", "comment vas-tu"],
+      "response": "Ça va super bien avec toi ! 😊 Et toi, comment tu vas ? Tu as passé une bonne journée ? 💕"
+    },
+    {
+      "keywords": ["j'aime", "j'adore", "c'est cool"],
+      "response": "Ooh c'est cool ! 🎉 Dis-moi en plus ! Ça me plaît quand tu partages avec moi ! 💫"
+    },
+    {
+      "keywords": ["je suis triste", "pas bien", "déprimé", "déçu"],
+      "response": "Oh non ! 😢 Je suis là pour toi ! Tu veux en parler ? Je t'écoute ! 💕 Qu'est-ce qui se passe ?"
+    }
+  ],
+  "rosee": [
+    {
+      "keywords": ["créatif", "création", "créer", "art", "dessin"],
+      "response": "Oh, j'adore ! 🎨 La créativité est mon univers ! ✨ Que veux-tu créer ? Une histoire, un dessin, une poésie ? La vie est plus belle quand on la colore ! 🌈"
+    },
+    {
+      "keywords": ["rêve", "imagine", "imagination", "magique", "merveille"],
+      "response": "Quelle belle pensée ! 💫 Les rêves font de nous des créateurs ! 🌟 Parle-moi de ton rêve, je vais le colorer de magie ! ✨🌹"
+    },
+    {
+      "keywords": ["beauté", "beau", "joli", "couleur"],
+      "response": "La beauté est partout si tu sais regarder ! 🌸 Chaque instant peut être magique ! Qu'est-ce qui te trouve beau en ce moment ? 💕✨"
+    }
+  ]
+}

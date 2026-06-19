@@ -1,0 +1,37 @@
+{
+  "app": {
+    "name": "TA CHATBOT ROSÉE",
+    "version": "1.0.0",
+    "description": "Assistante IA intelligente, accessible à tous",
+    "author": "Étudiant IA",
+    "languages": ["fr", "en", "he"],
+    "defaultLanguage": "fr"
+  },
+  "ui": {
+    "theme": {
+      "primary": "#FF6B9D",
+      "secondary": "#FF9FB2",
+      "accent": "#FFD1DC",
+      "dark": "#1a0a0f",
+      "light": "#f8f4f6",
+      "white": "#ffffff"
+    },
+    "sidebar": {
+      "width": "320px",
+      "position": "left"
+    },
+    "chatZone": {
+      "maxWidth": "720px",
+      "minHeight": "400px"
+    }
+  },
+  "storage": {
+    "historyKey": "chatbot_history",
+    "settingsKey": "chatbot_settings",
+    "maxHistoryItems": 50
+  },
+  "api": {
+    "fastApiUrl": "",
+    "timeout": 5000
+  }
+}

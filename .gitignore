@@ -1,0 +1,38 @@
+# ── Secrets (NEVER commit) ────────────────────────
+.env
+.env.*
+!.env.example
+
+# ── Python ────────────────────────────────────────
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+*.so
+
+# ── Docker ────────────────────────────────────────
+# (keep docker files in git, ignore local overrides)
+
+# ── Editor / OS ───────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Logs ──────────────────────────────────────────
+*.log
+logs/
+
+# ── Misc ──────────────────────────────────────────
+.cache/
+tmp/
+temp/
