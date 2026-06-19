@@ -39,6 +39,17 @@ class MessageRequest(BaseModel):
     langue: str = "fr"
 
 
+class MusiqueRequest(BaseModel):
+    humeur:         str       = "Motivé(e)"
+    genres:         List[str] = []
+    artistes_aimes: str       = ""
+    avec_tendances: bool      = True
+
+
+class MusiqueResponse(BaseModel):
+    recommandations: str
+
+
 class CorrectionRequest(BaseModel):
     texte:      str
     niveau:     str = "6ème-5ème"
@@ -235,6 +246,68 @@ def get_langues():
         "langues": ["fr", "en", "he"],
         "descriptions": {"fr": "Français", "en": "English", "he": "עברית"},
     }
+
+
+# ── Recommandations musicales ────────────────────────────────────────────────
+
+@app.post("/musique")
+def recommander_musique(request: MusiqueRequest) -> MusiqueResponse:
+    if not client:
+        return MusiqueResponse(recommandations="❌ Claude API non disponible.")
+
+    genres_str  = ", ".join(request.genres) if request.genres else "tous genres"
+    artistes_str = request.artistes_aimes.strip()
+
+    prompt = (
+        f"Humeur : {request.humeur}\n"
+        f"Genres préférés : {genres_str}\n"
+        + (f"Artistes aimés : {artistes_str}\n" if artistes_str else "")
+        + "\n"
+        "Recommande des musiques personnalisées en respectant EXACTEMENT ce format :\n\n"
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        f"🎵 PLAYLIST IA — {request.humeur.upper()}\n"
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n"
+        "🔥 HITS EN CE MOMENT (TikTok & Réseaux)\n"
+        "1. [Artiste] — « [Titre] »\n"
+        "   → [Pourquoi cette chanson colle à l'humeur - 1 ligne]\n"
+        "[Donne 6 chansons tendance réelles et populaires]\n\n"
+        "🎵 SÉLECTION POUR TON HUMEUR\n"
+        "1. [Artiste] — « [Titre] » ([année/album])\n"
+        "   🎯 [Pourquoi c'est parfait maintenant]\n"
+        "[Donne 8 chansons parfaitement adaptées à l'humeur]\n\n"
+        "💿 ARTISTES À DÉCOUVRIR MAINTENANT\n"
+        "• [Artiste] — [Genre] | Si tu aimes [artiste similaire], tu vas adorer parce que [raison]\n"
+        "[Donne 4 artistes à découvrir]\n\n"
+        "📱 PLAYLISTS PARFAITES (Spotify / YouTube)\n"
+        '• "[Nom de playlist connue]" — [Ambiance en 5 mots]\n'
+        "[Donne 4 playlists réelles et connues]\n\n"
+        "⭐ LE COUP DE CŒUR DU DJ IA\n"
+        "[Une chanson coup de cœur avec une explication enthousiaste de 2-3 phrases]\n\n"
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+        "💬 Fun fact musical\n"
+        "[Un fait insolite sur la musique ou sur un des artistes recommandés]"
+    )
+
+    try:
+        message = client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=1800,
+            system=(
+                "Tu es un DJ et expert musical pour jeunes (10-18 ans). "
+                "Tu connais parfaitement les tendances musicales TikTok, Spotify, YouTube. "
+                "Tu recommandes des vraies chansons et artistes populaires récents. "
+                "Tes recommandations sont fun, enthousiasmes et hyper personnalisées. "
+                "Tu connais la scène française (Aya Nakamura, Freeze Corleone, Gazo, PNL...) "
+                "et internationale (Taylor Swift, Drake, Billie Eilish, NewJeans, Bad Bunny...)."
+            ),
+            messages=[{"role": "user", "content": prompt}],
+        )
+        print(f"✅ Playlist générée : {request.humeur} / {genres_str}")
+        return MusiqueResponse(recommandations=message.content[0].text)
+
+    except Exception as e:
+        print(f"❌ Erreur musique: {e}")
+        return MusiqueResponse(recommandations="❌ Erreur lors de la génération. Réessaie !")
 
 
 # ── Correcteur de texte ──────────────────────────────────────────────────────

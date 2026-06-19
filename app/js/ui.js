@@ -45,11 +45,12 @@ function renderSuggestions(config) {
   if (!suggestionsContainer) return;
 
   const suggestions = [
-    { emoji: '💕', text: 'COUCOU !', action: 'bonjour' },
-    { emoji: '⭐', text: 'T\'ES QUI TOI ?', action: 'qui es-tu' },
-    { emoji: '⭐', text: 'AIDE MAGIQUE !', action: 'aide' },
-    { emoji: '🎨', text: 'DESSIN', action: 'dessin' },
-    { emoji: '🎮', text: 'JEUX', action: 'jeux' },
+    { emoji: '💕', text: 'COUCOU !',      action: 'bonjour'  },
+    { emoji: '⭐', text: 'T\'ES QUI ?',   action: 'qui es-tu' },
+    { emoji: '⭐', text: 'AIDE !',        action: 'aide'     },
+    { emoji: '🎵', text: 'MUSIQUE',       action: 'musique'  },
+    { emoji: '🎨', text: 'DESSIN',        action: 'dessin'   },
+    { emoji: '🎮', text: 'JEUX',          action: 'jeux'     },
   ];
 
   suggestionsContainer.innerHTML = '';
@@ -61,7 +62,9 @@ function renderSuggestions(config) {
     btn.setAttribute('aria-label', suggestion.text);
 
     btn.addEventListener('click', () => {
-      if (suggestion.action === 'dessin') {
+      if (suggestion.action === 'musique') {
+        if (typeof ouvrirMusique === 'function') ouvrirMusique();
+      } else if (suggestion.action === 'dessin') {
         if (typeof ouvrirDessin === 'function') ouvrirDessin();
       } else if (suggestion.action === 'jeux') {
         if (typeof afficherMenuJeux === 'function') afficherMenuJeux();

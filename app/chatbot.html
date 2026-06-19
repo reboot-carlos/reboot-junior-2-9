@@ -270,6 +270,90 @@
     </div>
   </div>
 
+  <!-- ══════════════ MODAL MUSIQUE ══════════════ -->
+  <div id="modal-musique" class="modal modal-musique" role="dialog" aria-modal="true">
+
+    <div class="modal-header music-header">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span class="music-header-icon">🎵</span>
+        <div>
+          <h3 style="margin:0;font-size:1.05rem;color:#fff;letter-spacing:.05em;">MON DJ IA PERSONNEL</h3>
+          <span style="font-size:0.72rem;color:rgba(255,255,255,.75);">Recommandations personnalisées &bull; TikTok &bull; Tendances</span>
+        </div>
+      </div>
+      <button class="btn-modal-close" style="background:rgba(255,255,255,.15);color:#fff;border-color:rgba(255,255,255,.2);"
+              onclick="fermerMusique()">✕</button>
+    </div>
+
+    <!-- Égaliseur animé (déco) -->
+    <div class="music-eq" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span>
+    </div>
+
+    <!-- Humeur -->
+    <div class="music-field">
+      <label class="music-label">🎭 C'est quoi ton humeur là ?</label>
+      <div class="music-pills-row" id="music-humeur-pills">
+        <button class="music-pill active" data-val="Motivé(e)">🔥 Motivé(e)</button>
+        <button class="music-pill" data-val="Bonne humeur">😊 Happy</button>
+        <button class="music-pill" data-val="Chill">🌙 Chill</button>
+        <button class="music-pill" data-val="Sport / Énergie">💪 Sport</button>
+        <button class="music-pill" data-val="Coup de blues">😢 Blues</button>
+        <button class="music-pill" data-val="Romantique">💝 Amour</button>
+        <button class="music-pill" data-val="Rebelle / Intense">😤 Rebelle</button>
+        <button class="music-pill" data-val="Concentré(e)">📚 Focus</button>
+      </div>
+    </div>
+
+    <!-- Genres -->
+    <div class="music-field">
+      <label class="music-label">🎸 Tes genres préférés <span style="font-weight:400;opacity:.6;">(choix multiples)</span></label>
+      <div class="music-pills-row" id="music-genre-pills">
+        <button class="music-pill" data-val="Pop">🎤 Pop</button>
+        <button class="music-pill" data-val="Hip-Hop / Rap">🤟 Rap</button>
+        <button class="music-pill" data-val="R&B / Soul">🎶 R&amp;B</button>
+        <button class="music-pill" data-val="K-Pop">🌸 K-Pop</button>
+        <button class="music-pill" data-val="Rock / Indie">🎸 Rock</button>
+        <button class="music-pill" data-val="Électro / EDM">🎛️ Électro</button>
+        <button class="music-pill" data-val="Afro / Latin">🌍 Afro/Latin</button>
+        <button class="music-pill" data-val="Lofi / Classique">🎻 Lofi</button>
+      </div>
+    </div>
+
+    <!-- Artistes -->
+    <div class="music-field">
+      <label class="music-label" for="music-artistes">🌟 Tes artistes favoris <span style="font-weight:400;opacity:.6;">(optionnel)</span></label>
+      <input id="music-artistes" type="text" class="music-input"
+             placeholder="Ex: Taylor Swift, Drake, Aya Nakamura, Freeze Corleone, NewJeans..." />
+    </div>
+
+    <!-- Bouton -->
+    <button id="btn-generer-musique" class="btn-music-generate" onclick="genererMusique()">
+      🎵 GÉNÉRER MA PLAYLIST
+    </button>
+
+    <!-- Chargement -->
+    <div id="music-loading" style="display:none;flex-direction:column;align-items:center;gap:10px;padding:24px 0;">
+      <div class="music-spin-notes">🎵 🎶 🎵</div>
+      <p style="font-weight:700;color:#a855f7;font-size:1rem;">Ton DJ IA prépare ta playlist...</p>
+      <p style="font-size:0.82rem;color:#999;">10-15 secondes</p>
+    </div>
+
+    <!-- Résultat -->
+    <div id="music-result" style="display:none;">
+      <div class="music-result-header">
+        <span>🎧 Ta playlist est prête !</span>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button id="btn-copier-musique" onclick="copierMusique()" class="btn btn-secondary">📋 Copier</button>
+          <button onclick="nouvelleMusique()" class="btn btn-secondary">🔄 Nouvelle humeur</button>
+        </div>
+      </div>
+      <pre id="music-output" class="music-output"></pre>
+    </div>
+
+  </div>
+
   <!-- ══════════════ MODAL CORRECTEUR DE TEXTE ══════════════ -->
   <div id="modal-correction" class="modal modal-correction" role="dialog" aria-modal="true">
 
@@ -743,6 +827,7 @@ Ex: Hier, je suis allé au cinéma avec mes amis. Nous avons regarder un film da
   </div>
 
   <!-- Scripts — nouveaux modules en premier pour que leurs fonctions soient dispo -->
+  <script src="js/musique.js" defer></script>
   <script src="js/correction.js" defer></script>
   <script src="js/planning.js" defer></script>
   <script src="js/outfit.js" defer></script>
