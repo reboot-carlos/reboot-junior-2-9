@@ -31,7 +31,7 @@
     "maxHistoryItems": 50
   },
   "api": {
-    "fastApiUrl": "http://localhost:8001",
+    "fastApiUrl": "",
     "timeout": 5000
   }
 }
