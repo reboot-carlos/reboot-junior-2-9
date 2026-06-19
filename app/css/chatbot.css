@@ -202,6 +202,7 @@
   border-color: var(--secondary);
   box-shadow: 0 0 20px rgba(255, 107, 157, 0.3);
   background: #fff;
+  color: #111 !important;
 }
 
 #bouton-envoyer {
